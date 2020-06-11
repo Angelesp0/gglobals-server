@@ -4,6 +4,7 @@ const Companies = require("../models/company.model.js");
 // Create One Companies
 exports.create = (req, res) => {
     console.log("1.- Controlador");
+    console.log('respuesta' + res, 'peticion' + req);
     // Validate request
     if (!req.body) {
         res.status(400).send({

@@ -1,4 +1,5 @@
 const Users = require("../models/user.model.js");
+const { request } = require("express");
 
 
 // Create One User
@@ -30,6 +31,21 @@ exports.create = (req, res) => {
         else res.send(data);
     });
 };
+
+// login 
+/*
+exports.login = (req, res) => {
+    console.log("1.- Controlador");
+    const user = new Users({
+        email: req.query.email,
+        password: req.query.password
+    });
+
+    Users.login(user, (err, data) => {
+
+    })
+};
+*/
 
 // Find one user by id
 exports.findOne = (req, res) => {

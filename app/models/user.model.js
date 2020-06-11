@@ -24,6 +24,30 @@ Users.create = (newUser, result) => {
         result(null, { id: res.insertId, ...newUser });
     });
 };
+/*
+Users.login = (user, result) => {
+    console.log("2.- Model");
+    if (user.email && user.password) {
+        console.log(user);
+        sql.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password], (err, res) => {
+            if (res.length > 0) {
+                console.log('hola');
+                user.session.loggedin = true;
+                user.session.username = username;
+                result.redirect('/home');
+            } else {
+                console.log('Incorrect Username and/or Password!');
+            }
+            console.log();
+        });
+    } else {
+        console.log('Please enter Username and Password!');
+        console.log();
+    }
+
+}
+*/
+
 // Get All Users
 Users.getAll = result => {
     sql.query("SELECT * FROM users", (err, res) => {

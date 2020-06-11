@@ -35,6 +35,7 @@ module.exports = app => {
     // Delete a company with companyId
     app.delete("/companies/:companyId", company.delete);
 
-
+    // Login
+    //app.post("/auth", users.login);
 
 };
