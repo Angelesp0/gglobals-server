@@ -5,6 +5,8 @@ const { request } = require("express");
 // Create One User
 exports.create = (req, res) => {
     console.log("controlador");
+    console.log('respuesta' + res, 'peticion' + req);
+
     // Validate request
     if (!req.body) {
         res.status(400).send({

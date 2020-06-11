@@ -31,15 +31,17 @@ app.get("/", (req, res) => {
 
 app.post('/auth', function(request, response) {
     console.log("1.- Controlador");
-    var username = request.query.email;
-    var password = request.query.password;
+    var username = request.body.username;
+    var password = request.body.password;
     if (username && password) {
         console.log("2.- Model");
         sql.query('SELECT * FROM users WHERE email = ? AND password = ?', [username, password], function(error, results, fields) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                response.redirect('/home');
+                console.log("true");
+                response.send(results);
+                //response.redirect('/users');
             } else {
                 response.send('Incorrect email and/or Password!');
             }
@@ -51,14 +53,20 @@ app.post('/auth', function(request, response) {
     }
 });
 
+/*
 app.get('/home', function(request, response) {
+    this.records = JSON.parse(response) // impoprtant
+    console.log("records" + this.records)
     if (request.session.loggedin) {
+        console.log("2.- login");
         response.send('Welcome back, ' + request.session.username + '!');
     } else {
+        console.log("2.- no login");
+
         response.send('Please login to view this page!');
     }
     response.end();
-});
+});*/
 
 require("./app/routes/user.routes.js")(app);
 
