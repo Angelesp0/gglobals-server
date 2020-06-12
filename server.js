@@ -1,21 +1,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var cors = require('cors');
-var session = require('express-session');
 const sql = require("./app/models/db.js");
+var cors = require('cors');
+var multer = require('multer')
+const path = require('path')
 
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './files')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+})
 
-
+const upload = multer({ storage });
 
 const app = express();
-app.use(cors());
 
+app.use(cors())
 
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}));
 
 
 // parse requests of content-type: application/json
@@ -29,6 +33,7 @@ app.get("/", (req, res) => {
     res.json({ message: "bienvenido a globals-app" });
 });
 
+// auth user route
 app.post('/auth', function(request, response) {
     console.log("1.- Controlador");
     var username = request.body.username;
@@ -53,23 +58,12 @@ app.post('/auth', function(request, response) {
     }
 });
 
-/*
-app.get('/home', function(request, response) {
-    this.records = JSON.parse(response) // impoprtant
-    console.log("records" + this.records)
-    if (request.session.loggedin) {
-        console.log("2.- login");
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        console.log("2.- no login");
+app.post('/subir', upload.single('file'), (req, res) => {
+    return res.send(req.file);
+});
 
-        response.send('Please login to view this page!');
-    }
-    response.end();
-});*/
 
 require("./app/routes/user.routes.js")(app);
-
 
 // set port, listen for requests
 app.listen(3000, () => {

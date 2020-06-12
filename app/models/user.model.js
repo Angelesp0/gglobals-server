@@ -56,7 +56,6 @@ Users.getAll = result => {
             result(null, err);
             return;
         }
-        console.log("Users: ", res);
         result(null, res);
     });
 };
@@ -70,7 +69,6 @@ Users.findById = (userId, result) => {
         }
 
         if (res.length) {
-            console.log("found customer: ", res[0]);
             result(null, res[0]);
             return;
         }
