@@ -59,6 +59,8 @@ app.post('/auth', function(request, response) {
 });
 
 app.post('/subir', upload.single('file'), (req, res) => {
+    console.log(req.file.destination);
+    console.log(req.file.filename);
     return res.send(req.file);
 });
 
