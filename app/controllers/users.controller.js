@@ -1,18 +1,30 @@
 const Users = require("../models/user.model.js");
 const { request } = require("express");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+
+async function hashPassword(password) {
+    return await bcrypt.hash(password, 10);
+}
+async function validatePassword(plainPassword, hashedPassword) {
+    return await bcrypt.compare(plainPassword, hashedPassword);
+}
 
 
 // Create One User
-exports.create = (req, res) => {
+exports.create = async(req, res, next) => {
     console.log("controlador");
     console.log('respuesta' + res, 'peticion' + req);
-
     // Validate request
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
+
+    const password = req.body.password
+    const hashedPassword = await hashPassword(password);
     // Create a Customer
     const user = new Users({
         first_name: req.body.first_name,
@@ -22,8 +34,11 @@ exports.create = (req, res) => {
         cp: req.body.cp,
         role: req.body.role,
         email: req.body.email,
-        password: req.body.password
+        password: hashedPassword
     });
+    console.log(hashPassword);
+
+
     // Save Customer in the database
     Users.create(user, (err, data) => {
         if (err)

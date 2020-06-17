@@ -63,7 +63,6 @@ Companies.getAll = result => {
             result(null, err);
             return;
         }
-        console.log("Companies: ", res);
         result(null, res);
     });
 };

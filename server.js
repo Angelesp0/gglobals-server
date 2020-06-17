@@ -4,6 +4,14 @@ const sql = require("./app/models/db.js");
 var cors = require('cors');
 var multer = require('multer')
 const path = require('path')
+const session = require('express-session');
+const config = require('./app/config/jwt.config');
+const bcrypt = require('bcrypt');
+
+async function validatePassword(plainPassword, hashedPassword) {
+    return await bcrypt.compare(plainPassword, hashedPassword);
+}
+
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -19,7 +27,14 @@ const upload = multer({ storage });
 const app = express();
 
 app.use(cors())
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true
+}));
 
+
+app.set('llave', config.llave);
 
 
 // parse requests of content-type: application/json
