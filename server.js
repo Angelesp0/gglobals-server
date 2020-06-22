@@ -6,11 +6,6 @@ var multer = require('multer')
 const path = require('path')
 const session = require('express-session');
 const config = require('./app/config/jwt.config');
-const bcrypt = require('bcrypt');
-
-async function validatePassword(plainPassword, hashedPassword) {
-    return await bcrypt.compare(plainPassword, hashedPassword);
-}
 
 
 let storage = multer.diskStorage({
@@ -26,7 +21,7 @@ const upload = multer({ storage });
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 app.use(session({
     secret: '2C44-4D44-WppQ38S',
     resave: true,
@@ -35,7 +30,6 @@ app.use(session({
 
 
 app.set('llave', config.llave);
-
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
@@ -48,30 +42,6 @@ app.get("/", (req, res) => {
     res.json({ message: "bienvenido a globals-app" });
 });
 
-// auth user route
-app.post('/auth', function(request, response) {
-    console.log("1.- Controlador");
-    var username = request.body.username;
-    var password = request.body.password;
-    if (username && password) {
-        console.log("2.- Model");
-        sql.query('SELECT * FROM users WHERE email = ? AND password = ?', [username, password], function(error, results, fields) {
-            if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username;
-                console.log("true");
-                response.send(results);
-                //response.redirect('/users');
-            } else {
-                response.send('Incorrect email and/or Password!');
-            }
-            response.end();
-        });
-    } else {
-        response.send('Please enter email and Password!');
-        response.end();
-    }
-});
 
 app.post('/subir', upload.single('file'), (req, res) => {
     console.log(req.file.destination);

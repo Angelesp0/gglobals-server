@@ -1,16 +1,21 @@
 const Users = require("../models/user.model.js");
-const { request } = require("express");
-const jwt = require('jsonwebtoken');
+const conf = require("./../config/jwt.config");
 const bcrypt = require('bcrypt');
+const jwt = require('jwt-simple');
+const moment = require('moment');
 
+const createToken = (user) => {
+    let payload = {
+        userId: user.id,
+        createAt: moment().unix(),
+        expiresAt: moment().add(1, 'day').unix()
+    }
+    return jwt.encode(payload, conf.TOKEN_KEY);
+};
 
 async function hashPassword(password) {
     return await bcrypt.hash(password, 10);
 }
-async function validatePassword(plainPassword, hashedPassword) {
-    return await bcrypt.compare(plainPassword, hashedPassword);
-}
-
 
 // Create One User
 exports.create = async(req, res, next) => {
@@ -50,19 +55,28 @@ exports.create = async(req, res, next) => {
 };
 
 // login 
-/*
-exports.login = (req, res) => {
+exports.login = async(request, response) => {
     console.log("1.- Controlador");
-    const user = new Users({
-        email: req.query.email,
-        password: req.query.password
-    });
+    const user = await Users.findByEmail(request.body.email);
+    if (user === undefined) {
+        response.json({
+            erro: 'Error, email or password nos found'
+        });
+    } else {
+        const equals = bcrypt.compareSync(request.body.password, user.password);
+        if (!equals) {
+            response.json({
+                erro: 'Error, email or password not found'
+            });
+        } else {
+            response.json({
+                succesfull: createToken(user),
+                done: 'Login correct'
+            })
+        }
+    }
 
-    Users.login(user, (err, data) => {
-
-    })
-};
-*/
+}
 
 // Find one user by id
 exports.findOne = (req, res) => {

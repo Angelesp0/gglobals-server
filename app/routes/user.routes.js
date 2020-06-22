@@ -1,7 +1,12 @@
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
     const company = require("../controllers/companies.controller.js");
+    const checkToken = require("./middleware");
 
+    // auth user route
+    app.post('/auth', users.login);
+
+    app.use(checkToken);
 
     // Create a new Customer
     app.post("/users", users.create);
@@ -17,6 +22,7 @@ module.exports = app => {
 
     // Delete a Customer with customerId
     app.delete("/users/:userId", users.delete);
+
 
     //=======================================================================================//
 

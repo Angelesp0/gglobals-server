@@ -1,4 +1,5 @@
 const sql = require("./db.js");
+const { json } = require("body-parser");
 // constructor
 const Users = function(user) {
     this.id_user = user.id_user;
@@ -24,10 +25,12 @@ Users.create = (newUser, result) => {
         result(null, { id: res.insertId, ...newUser });
     });
 };
+
 /*
-Users.login = (user, result) => {
+Users.login = (user, pass, result) => {
     console.log("2.- Model");
-    if (user.email && user.password) {
+    if (user && pass) {
+        console.log(user);
         console.log(user);
         sql.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password], (err, res) => {
             if (res.length > 0) {
@@ -77,6 +80,17 @@ Users.findById = (userId, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+
+Users.findByEmail = (email) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT * FROM users WHERE email = ?  ", [email], (err, res) => {
+            if (err) reject(err)
+            resolve(res[0]);
+        });
+    });
+};
+
 // update User
 Users.updateById = (id_user, user, result) => {
     sql.query(
