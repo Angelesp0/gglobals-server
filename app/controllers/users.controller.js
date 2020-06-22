@@ -37,7 +37,7 @@ exports.create = async(req, res, next) => {
         direction: req.body.direction,
         colony: req.body.colony,
         cp: req.body.cp,
-        role: req.body.role,
+        role_id_role: req.body.role_id_role,
         email: req.body.email,
         password: hashedPassword
     });
@@ -57,10 +57,12 @@ exports.create = async(req, res, next) => {
 // login 
 exports.login = async(request, response) => {
     console.log("1.- Controlador");
-    const user = await Users.findByEmail(request.body.email);
+    const user = await Users.findByEmail(request.body.username);
+    //const role_menu = await Users.findRoleMenu(user['role_id_role']);
     if (user === undefined) {
+        console.log(user);
         response.json({
-            erro: 'Error, email or password nos found'
+            error: 'Error, email or password not found'
         });
     } else {
         const equals = bcrypt.compareSync(request.body.password, user.password);
@@ -70,6 +72,8 @@ exports.login = async(request, response) => {
             });
         } else {
             response.json({
+                //role_menu,
+                user,
                 succesfull: createToken(user),
                 done: 'Login correct'
             })

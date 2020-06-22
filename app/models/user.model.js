@@ -8,7 +8,7 @@ const Users = function(user) {
     this.direction = user.direction;
     this.colony = user.colony;
     this.cp = user.cp;
-    this.role = user.role;
+    this.role_id_role = user.role_id_role;
     this.email = user.email;
     this.password = user.password;
 };
@@ -25,31 +25,6 @@ Users.create = (newUser, result) => {
         result(null, { id: res.insertId, ...newUser });
     });
 };
-
-/*
-Users.login = (user, pass, result) => {
-    console.log("2.- Model");
-    if (user && pass) {
-        console.log(user);
-        console.log(user);
-        sql.query('SELECT * FROM users WHERE email = ? AND password = ?', [user.email, user.password], (err, res) => {
-            if (res.length > 0) {
-                console.log('hola');
-                user.session.loggedin = true;
-                user.session.username = username;
-                result.redirect('/home');
-            } else {
-                console.log('Incorrect Username and/or Password!');
-            }
-            console.log();
-        });
-    } else {
-        console.log('Please enter Username and Password!');
-        console.log();
-    }
-
-}
-*/
 
 // Get All Users
 Users.getAll = result => {
@@ -72,13 +47,18 @@ Users.findById = (userId, result) => {
         }
 
         if (res.length) {
-            result(null, res[0]);
+            sql.query(`SELECT * FROM role_has_menu WHERE role_id_role = ${res[0][role_id_role]}`, (err, res) => {
+                //result(null, res[0]);
+                return;
+            });
+            //result(null, res[0]);
             return;
         }
 
         // not found Customer with the id
         result({ kind: "not_found" }, null);
     });
+
 };
 
 Users.findByEmail = (email) => {
@@ -90,6 +70,26 @@ Users.findByEmail = (email) => {
         });
     });
 };
+
+Users.findRoleMenu = (id_role) => {
+    console.log("3.- Roles");
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT menu_id_menu FROM role_has_menu WHERE role_id_role = ${id_role}`, (err, res) => {
+            console.log("4.- menu");
+
+            if (err) reject(err)
+            resolve(res);
+        });
+    })
+}
+Users.findMenu = (id_menu) => {
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM menu WHERE id_menu = ${id_role}`, (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    })
+}
 
 // update User
 Users.updateById = (id_user, user, result) => {
