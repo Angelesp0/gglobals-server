@@ -1,6 +1,7 @@
 const sql = require("./db.js");
 const { json } = require("body-parser");
-// constructor
+const usuario = 'cliente'
+    // constructor
 const Users = function(user) {
     this.id_user = user.id_user;
     this.first_name = user.first_name;
@@ -8,7 +9,7 @@ const Users = function(user) {
     this.direction = user.direction;
     this.colony = user.colony;
     this.cp = user.cp;
-    this.role_id_role = user.role_id_role;
+    this.role_id_role = 3;
     this.email = user.email;
     this.password = user.password;
 };
@@ -47,11 +48,7 @@ Users.findById = (userId, result) => {
         }
 
         if (res.length) {
-            sql.query(`SELECT * FROM role_has_menu WHERE role_id_role = ${res[0][role_id_role]}`, (err, res) => {
-                //result(null, res[0]);
-                return;
-            });
-            //result(null, res[0]);
+            result(null, res[0]);
             return;
         }
 
@@ -94,7 +91,7 @@ Users.findMenu = (id_menu) => {
 // update User
 Users.updateById = (id_user, user, result) => {
     sql.query(
-        "UPDATE users SET first_name = ?, last_name = ?, direction = ?, colony = ?, cp = ?, role = ?, email = ?, password = ? WHERE id_user = ? ", [user.first_name, user.last_name, user.direction, user.colony, user.cp, user.role, user.email, user.password, id_user],
+        "UPDATE users SET first_name = ?, last_name = ?, direction = ?, colony = ?, cp = ?,  email = ?, password = ? WHERE id_user = ? ", [user.first_name, user.last_name, user.direction, user.colony, user.cp, user.email, user.password, id_user],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

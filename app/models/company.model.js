@@ -66,6 +66,19 @@ Companies.getAll = result => {
         result(null, res);
     });
 };
+
+Companies.getAllfiles = result => {
+    console.log("2.- Model");
+    sql.query("SELECT * FROM company", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
+
 // update User
 Companies.updateById = (id_company, company, result) => {
     sql.query(
