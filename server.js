@@ -14,6 +14,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use('/files', express.static(__dirname + '/public'));
+
 app.set('llave', config.llave);
 
 // parse requests of content-type: application/json

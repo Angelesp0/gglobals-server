@@ -13,6 +13,7 @@ const Users = function(user) {
     this.email = user.email;
     this.password = user.password;
 };
+
 // Create one user
 Users.create = (newUser, result) => {
     sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
@@ -79,6 +80,7 @@ Users.findRoleMenu = (id_role) => {
         });
     })
 }
+
 Users.findMenu = (id_menu) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT * FROM menu WHERE id_menu = ${id_role}`, (err, res) => {
@@ -130,5 +132,26 @@ Users.remove = (id_user, result) => {
     });
 };
 
+Users.findImage = (id_user) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT nombre FROM users_has_files, files WHERE users_id_user = ? ", [id_user], (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+}
+
+/*
+Users.getImage = (id_img) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT nombre FROM files WHERE id_files = ? ", [id_img], (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+}
+*/
 
 module.exports = Users;

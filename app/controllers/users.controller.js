@@ -82,6 +82,29 @@ exports.login = async(request, response) => {
 
 }
 
+/*
+    for (let i = 0; i < img.length; i++) {
+        const url = await Users.getImage(img[i].files_id_files);
+        if (url === undefined) {
+            res.json({
+                error: 'Error, no se encontraron imagenes'
+            });
+        } else {
+            console.log(url);
+        }
+    }       
+*/
+exports.imagenes = async(req, res) => {
+    console.log('1.- controller');
+    const img = await Users.findImage(req.params.userId);
+    if (img === undefined) {
+        res.json({
+            error: 'Error, no se encontraron imagenes'
+        });
+    } else res.send(img);
+
+}
+
 // Find one user by id
 exports.findOne = (req, res) => {
     Users.findById(req.params.userId, (err, data) => {

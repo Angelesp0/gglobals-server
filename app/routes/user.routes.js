@@ -59,6 +59,8 @@ module.exports = app => {
 
     //=============================================================================================================================//
 
+    app.get('/imagenes/:userId', users.imagenes);
+
     app.post('/subirimagen', upload.single('file'), (req, result) => {
         console.log(req.body.users_id_user);
         sql.query("INSERT INTO files SET url = ?, nombre = ?, category = 'perfil' ", [req.file.destination, req.file.filename], (err, res) => {
@@ -80,6 +82,7 @@ module.exports = app => {
         });
         return result.send(req.file);
     });
+
 
     /*
         app.post('/subir', upload.single('file'), (req, result) => {
