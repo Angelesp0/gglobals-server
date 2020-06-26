@@ -135,7 +135,7 @@ Users.remove = (id_user, result) => {
 Users.findImage = (id_user) => {
     console.log("2.- Model");
     return new Promise((resolve, reject) => {
-        sql.query("SELECT nombre FROM users_has_files, files WHERE users_id_user = ? ", [id_user], (err, res) => {
+        sql.query("SELECT nombre FROM users_has_files, files WHERE users_id_user = ? and files_id_files = id_files", [id_user], (err, res) => {
             if (err) reject(err)
             resolve(res);
         });

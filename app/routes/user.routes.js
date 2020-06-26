@@ -2,6 +2,7 @@ const { request } = require("express");
 
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
+    const documents = require('./../controllers/documents.controller')
     const company = require("../controllers/companies.controller.js");
     const checkToken = require("./middleware");
     var multer = require('multer')
@@ -57,9 +58,12 @@ module.exports = app => {
     // Delete a company with companyId
     app.delete("/companies/:companyId", company.delete);
 
+
     //=============================================================================================================================//
 
     app.get('/imagenes/:userId', users.imagenes);
+
+    app.get('/files/:userId', documents.findAll);
 
     app.post('/subirimagen', upload.single('file'), (req, result) => {
         console.log(req.body.users_id_user);
@@ -82,25 +86,4 @@ module.exports = app => {
         });
         return result.send(req.file);
     });
-
-
-    /*
-        app.post('/subir', upload.single('file'), (req, result) => {
-            console.log(req.body.params);
-            sql.query("INSERT INTO files SET url = ?, nombre = ?, category = ? ", [req.file.destination, req.file.filename, req.body.category], (err, res) => {
-                if (err) {
-                    console.log("error1: ", err);
-                    //result(err, null);
-                    return;
-                }
-                //result(null, { id_files: res.id_files, ...req.file.destination });
-            });
-            console.log(req.file.destination);
-            console.log(req.file.filename);
-            return result.send(req.file);
-        });
-    */
-    // Login
-    //app.post("/auth", users.login);
-
 };
