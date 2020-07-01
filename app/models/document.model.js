@@ -5,9 +5,9 @@ const Documents = function(document) {
     this.url = document.url;
     this.nombre = document.nombre;
     this.category = document.category;
+    this.company_id_company = document.company_id_company;
 };
 
-// Get All Users
 Documents.getAll = (userId, result) => {
     return new Promise((resolve, reject) => {
         sql.query(`SELECT nombre FROM users_has_files, files WHERE users_id_user = ${userId} AND files_id_files = id_files And category = 'file'`, (err, res) => {
@@ -15,26 +15,6 @@ Documents.getAll = (userId, result) => {
             resolve(res);
         });
     });
-};
-
-// Get 1 User From ID
-Documents.findById = (userId, result) => {
-    sql.query(`SELECT * FROM users WHERE id_user = ${userId}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        if (res.length) {
-            result(null, res[0]);
-            return;
-        }
-
-        // not found Customer with the id
-        result({ kind: "not_found" }, null);
-    });
-
 };
 
 Documents.remove = (id_user, result) => {

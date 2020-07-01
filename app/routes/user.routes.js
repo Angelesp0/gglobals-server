@@ -61,29 +61,27 @@ module.exports = app => {
 
     //=============================================================================================================================//
 
-    app.get('/imagenes/:userId', users.imagenes);
+    app.get('/imagenes/:userId', documents.imagenes);
 
     app.get('/files/:userId', documents.findAll);
 
-    app.post('/subirimagen', upload.single('file'), (req, result) => {
-        console.log(req.body.users_id_user);
-        sql.query("INSERT INTO files SET url = ?, nombre = ?, category = 'perfil' ", [req.file.destination, req.file.filename], (err, res) => {
+    app.get('/company/files/:companyId', company.findByCompanyId);
+
+    //========================================ADMIN================================================================================//
+
+    app.post('/files', upload.single('file'), (req, result) => {
+        console.log(req.body.company_id_company);
+        console.log(req.file.company_id_company);
+
+        sql.query("INSERT INTO files SET url = ?, nombre = ?, category = 'file', company_id_company = ?", [req.file.destination, req.file.filename, req.body.company_id_company], (err, res) => {
             if (err) {
                 console.log("error1: ", err);
-                //result(err, null);
                 return;
             }
             console.log(res.insertId);
-            sql.query("INSERT INTO users_has_files SET files_id_files = ?, users_id_user = ?", [res.insertId, req.body.users_id_user], (err, res) => {
-                if (err) {
-                    console.log("error2: ", err);
-                    //result(err, null);
-                    return;
-                }
-            });
-
             //result(null, { id_files: res.id_files, ...req.file.destination });
         });
         return result.send(req.file);
     });
+
 };

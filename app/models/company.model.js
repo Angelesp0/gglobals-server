@@ -19,6 +19,7 @@ const Companies = function(company) {
     this.service = company.service;
     this.invoice = company.invoice;
     this.users_id_user = company.users_id_user;
+    this.img = company.img;
 };
 // Create one company
 Companies.create = (newCompany, result) => {
@@ -45,7 +46,6 @@ Companies.findById = (id_company, result) => {
         }
 
         if (res.length) {
-            console.log("Empresa encontrada: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -101,6 +101,7 @@ Companies.updateById = (id_company, company, result) => {
         }
     );
 };
+
 // remove companies
 Companies.remove = (id_company, result) => {
     sql.query("DELETE FROM company WHERE id_company = ?", id_company, (err, res) => {
@@ -120,4 +121,22 @@ Companies.remove = (id_company, result) => {
         result(null, res);
     });
 };
+
+Companies.findByCompanyId = (id_company, result) => {
+    sql.query(`SELECT * FROM files WHERE company_id_company = ${id_company}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "Empresa no encontrada" }, null);
+    });
+}
 module.exports = Companies;

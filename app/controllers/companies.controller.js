@@ -117,3 +117,20 @@ exports.delete = (req, res) => {
         } else res.send({ message: `Customer was deleted successfully!` });
     });
 };
+
+exports.findByCompanyId = (req, res) => {
+    console.log("1.- Controlador");
+    Companies.findByCompanyId(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontraron documentos`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.id_company
+                });
+            }
+        } else res.send(data);
+    });
+}
