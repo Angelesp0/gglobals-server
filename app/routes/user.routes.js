@@ -2,8 +2,10 @@ const { request } = require("express");
 
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
-    const documents = require('./../controllers/documents.controller')
+    const documents = require('./../controllers/documents.controller');
     const company = require("../controllers/companies.controller.js");
+    const service = require("../controllers/services.controller.js");
+
     const checkToken = require("./middleware");
     var multer = require('multer')
     const sql = require("./../models/db.js");
@@ -24,6 +26,7 @@ module.exports = app => {
     app.post('/auth', users.login);
 
     app.use(checkToken);
+    //========================================Users================================================================================//
 
     // Create a new Customer
     app.post("/users", users.create);
@@ -41,7 +44,8 @@ module.exports = app => {
     app.delete("/users/:userId", users.delete);
 
 
-    //=======================================================================================//
+    //========================================Company================================================================================//
+
 
     // Create a new company
     app.post("/companies", company.create);
@@ -59,13 +63,17 @@ module.exports = app => {
     app.delete("/companies/:companyId", company.delete);
 
 
-    //=============================================================================================================================//
+    //========================================Documents================================================================================//
+
 
     app.get('/imagenes/:userId', documents.imagenes);
 
-    app.get('/files/:userId', documents.findAll);
+    //app.get('/files/:userId', documents.findAll);
 
     app.get('/company/files/:companyId', company.findByCompanyId);
+
+    app.get('/user/files/:userId', documents.findAll);
+
 
     //========================================ADMIN================================================================================//
 
@@ -83,5 +91,21 @@ module.exports = app => {
         });
         return result.send(req.file);
     });
+
+    //========================================Services================================================================================//
+
+    app.post("/services", service.create);
+
+    app.get('/services', service.findAll);
+
+    app.get('/services/:companyId', service.getById);
+
+    app.put('/services/:serviceId', service.update);
+
+    app.delete('/services/:serviceId', service.delete);
+
+    app.get('/company/services/:companyId', service.findByCompanyId);
+
+
 
 };

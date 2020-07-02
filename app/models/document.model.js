@@ -10,7 +10,7 @@ const Documents = function(document) {
 
 Documents.getAll = (userId, result) => {
     return new Promise((resolve, reject) => {
-        sql.query(`SELECT nombre FROM users_has_files, files WHERE users_id_user = ${userId} AND files_id_files = id_files And category = 'file'`, (err, res) => {
+        sql.query(`SELECT files.nombre, company FROM users, company, files WHERE id_user=${userId} and users_id_user=id_user and id_company = company_id_company`, (err, res) => {
             if (err) reject(err)
             resolve(res);
         });

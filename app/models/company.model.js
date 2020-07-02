@@ -123,7 +123,7 @@ Companies.remove = (id_company, result) => {
 };
 
 Companies.findByCompanyId = (id_company, result) => {
-    sql.query(`SELECT * FROM files WHERE company_id_company = ${id_company}`, (err, res) => {
+    sql.query(`SELECT nombre FROM files WHERE company_id_company = ${id_company}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
