@@ -78,7 +78,6 @@ module.exports = app => {
     //========================================ADMIN================================================================================//
 
     app.post('/files', upload.single('file'), (req, result) => {
-        console.log(req.body.company_id_company);
         console.log(req.file.company_id_company);
 
         sql.query("INSERT INTO files SET url = ?, nombre = ?, category = 'file', company_id_company = ?", [req.file.destination, req.file.filename, req.body.company_id_company], (err, res) => {
@@ -93,12 +92,18 @@ module.exports = app => {
     });
 
     //========================================Services================================================================================//
+    app.post('/services1', upload.single('file'), service.create1);
+
+
+
 
     app.post("/services", service.create);
 
     app.get('/services', service.findAll);
 
-    app.get('/services/:companyId', service.getById);
+    //app.get('/company/services/:companyId', service.getById);
+
+    app.get('/services/:serviceId', service.getServiceById);
 
     app.put('/services/:serviceId', service.update);
 

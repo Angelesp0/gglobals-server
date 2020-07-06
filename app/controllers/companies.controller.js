@@ -4,7 +4,6 @@ const Companies = require("../models/company.model.js");
 // Create One Companies
 exports.create = (req, res) => {
     console.log("1.- Controlador");
-    console.log('respuesta' + res, 'peticion' + req);
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -120,7 +119,6 @@ exports.delete = (req, res) => {
 
 exports.findByCompanyId = (req, res) => {
     console.log("1.- Controlador");
-    console.log(req.params);
     Companies.findByCompanyId(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {

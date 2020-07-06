@@ -5,11 +5,12 @@ const Services = function(service) {
     this.name_service = service.name_service;
     this.desc_service = service.desc_service;
     this.price = service.price;
+    this.img = service.img;
 };
 // Create one company
-Services.create = (newService, result) => {
+Services.create1 = (newService, result) => {
+    console.log(newService);
     console.log("2.- Model");
-    //console.log(newCompany);
     sql.query("INSERT INTO services SET ?", newService, (err, res) => {
         if (err) {
             console.log("error1: ", err);
@@ -21,11 +22,10 @@ Services.create = (newService, result) => {
     });
 };
 
-
 // Get 1 User From ID
 Services.findById = (id_company, result) => {
     console.log("2.- Model");
-    sql.query(`SELECT name_service, desc_service, price, start_date, end_date, status FROM company_has_services,services WHERE company_id_company = ${id_company} AND services_id_service = id_service `, (err, res) => {
+    sql.query(`SELECT name_service, desc_service, price, start_date, end_date, status, img FROM company_has_services, services WHERE company_id_company = ${id_company} AND services_id_service = id_service `, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -42,6 +42,25 @@ Services.findById = (id_company, result) => {
     });
 };
 
+// Get 1 User From ID
+Services.findServiceById = (id_service, result) => {
+    console.log("2.- Model");
+    sql.query(`SELECT * FROM services WHERE id_service = ${id_service}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "La empresa no tiene servicios registrados" }, null);
+    });
+};
 
 // Get All Users
 Services.getAll = result => {
@@ -55,19 +74,6 @@ Services.getAll = result => {
         result(null, res);
     });
 };
-
-Services.getAllfiles = result => {
-    console.log("2.- Model");
-    sql.query("SELECT * FROM company", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        result(null, res);
-    });
-};
-
 
 // update User
 Services.updateById = (id_service, service, result) => {

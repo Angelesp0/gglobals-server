@@ -142,16 +142,25 @@ Users.findImage = (id_user) => {
     });
 }
 
-/*
-Users.getImage = (id_img) => {
-    console.log("2.- Model");
-    return new Promise((resolve, reject) => {
-        sql.query("SELECT nombre FROM files WHERE id_files = ? ", [id_img], (err, res) => {
-            if (err) reject(err)
-            resolve(res);
+Users.findImage = (id_user) => {
+        console.log("2.- Model");
+        return new Promise((resolve, reject) => {
+            sql.query("SELECT nombre FROM users_has_files, files WHERE users_id_user = ? and files_id_files = id_files", [id_user], (err, res) => {
+                if (err) reject(err)
+                resolve(res);
+            });
         });
-    });
-}
-*/
+    }
+    /*
+    Users.getImage = (id_img) => {
+        console.log("2.- Model");
+        return new Promise((resolve, reject) => {
+            sql.query("SELECT nombre FROM files WHERE id_files = ? ", [id_img], (err, res) => {
+                if (err) reject(err)
+                resolve(res);
+            });
+        });
+    }
+    */
 
 module.exports = Users;
