@@ -107,6 +107,9 @@ exports.update = (req, res) => {
         });
     }
 
+    findByUserId.service
+
+
     Services.updateById(
         req.params.serviceId,
         new Services(req.body),
@@ -176,4 +179,22 @@ exports.getServiceById = (req, res) => {
             }
         } else res.send(data);
     });
+}
+
+exports.findByUserId = (req, res) => {
+    console.log("1.- Controlador --------------------");
+    Services.findServiceById(req.params.userId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontraron servicios`
+                });
+            } else {
+                res.status(500).send({
+                    message: "No Hay servicios para este usuario "
+                });
+            }
+        } else res.send(data);
+    });
+
 }

@@ -111,6 +111,8 @@ module.exports = app => {
 
     app.get('/company/services/:companyId', service.findByCompanyId);
 
+    app.get('/user/:userId/services', service.findByUserId);
+
 
 
 };
