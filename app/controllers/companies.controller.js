@@ -1,4 +1,6 @@
 const Companies = require("../models/company.model.js");
+const Inf = require("../models/company_inf.model.js");
+
 
 
 // Create One Companies
@@ -12,26 +14,70 @@ exports.create = (req, res) => {
     }
     // Create a Customer
     const company = new Companies({
-        rfc: req.query.rfc,
-        street: req.query.street,
-        cp: req.query.cp,
-        city: req.query.city,
-        tel: req.query.tel,
-        company: req.query.company,
-        num_ext: req.query.num_ext,
-        num_int: req.query.num_int,
-        state: req.query.state,
-        colony: req.query.colony,
-        name: req.query.name,
-        last_name: req.query.last_name,
-        mobile: req.query.mobile,
-        email: req.query.email,
-        service: req.query.service,
-        invoice: req.query.invoice,
-        users_id_user: req.query.users_id_user
+        company: req.body.company,
+        service: req.body.service,
+        rfc: req.body.rfc,
+        state: req.body.state,
+        city: req.body.city,
+        type_colony: req.body.type_colony,
+        colony: req.body.colony,
+        type_street: req.body.type_street,
+        street: req.body.street,
+        cp: req.body.cp,
+        tel: req.body.tel,
+        num_ext: req.body.num_ext,
+        num_int: req.body.num_int,
+        invoice: req.body.invoice,
+        users_id_user: req.body.users_id_user,
+        img: req.body.img,
+        floor: req.body.floor,
+        local_number: req.body.local_number,
+        type_mall: req.body.type_mall,
+        name_mall: req.body.name_mall,
+        type_street1: req.body.type_street1,
+        street1: req.body.street1,
+        type_street2: req.body.type_street2,
+        street2: req.body.street2,
+        type_street3: req.body.type_street3,
+        street3: req.body.street3
+
     });
-    // Save Customer in the database
-    Companies.create(company, (err, data) => {
+    const inf = new Inf({
+            contact_name: req.body.contact_name,
+            job: req.body.job,
+            contact_tel: req.body.contact_tel,
+            contact_email: req.body.contact_email,
+            company_start: req.body.company_start,
+            facilities: req.body.facilities,
+            scope_of_operations: req.body.scope_of_operations,
+            sales_range: req.body.sales_range,
+            distribution: req.body.distribution,
+            export: req.body.export,
+            import: req.body.import,
+            percentage_main: req.body.percentage_main,
+            main_activity: req.body.main_activity,
+            percentage_secondary: req.body.percentage_secondary,
+            secondary_activity: req.body.secondary_activity,
+            percentage_tertiary: req.body.percentage_tertiary,
+            tertiary_activity: req.body.tertiary_activity,
+            activity_code: req.body.activity_code,
+            employees: req.body.employees,
+            female_employees: req.body.female_employees,
+            attention_area: req.body.attention_area,
+            financing: req.body.financing,
+            digital_equipment: req.body.digital_equipment,
+            internet: req.body.internet,
+            advertising: req.body.advertising,
+            training: req.body.training,
+            facebook: req.body.facebook,
+            business_group: req.body.business_group,
+            users_id_user: req.body.users_id_user,
+            cluster: req.body.cluster,
+            productive_chain: req.body.productive_chain,
+            distinctive: req.body.distinctive,
+        })
+        // Save Customer in the database
+    Companies.create(company, inf, (err, data) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Algo a currido al crear la Empresa"

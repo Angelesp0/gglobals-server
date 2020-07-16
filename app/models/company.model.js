@@ -2,27 +2,37 @@ const sql = require("./db.js");
 // constructor
 const Companies = function(company) {
     this.id_company = company.id_company;
+    this.company = company.company;
+    this.service = company.service;
     this.rfc = company.rfc;
+    this.state = company.state;
+    this.city = company.city;
+    this.type_colony = company.type_colony;
+    this.colony = company.colony;
+    this.type_street = company.type_street;
     this.street = company.street;
     this.cp = company.cp;
-    this.city = company.city;
     this.tel = company.tel;
-    this.company = company.company;
     this.num_ext = company.num_ext;
     this.num_int = company.num_int;
-    this.state = company.state;
-    this.colony = company.colony;
-    this.name = company.name;
-    this.last_name = company.last_name;
-    this.mobile = company.mobile;
-    this.email = company.email;
-    this.service = company.service;
     this.invoice = company.invoice;
     this.users_id_user = company.users_id_user;
     this.img = company.img;
+    this.floor = company.floor;
+    this.local_number = company.local_number;
+    this.type_mall = company.type_mall;
+    this.name_mall = company.name_mall;
+    this.type_street1 = company.type_street1;
+    this.street1 = company.street1;
+    this.type_street2 = company.type_street2;
+    this.street2 = company.street2;
+    this.type_street3 = company.type_street3;
+    this.street3 = company.street3;
 };
+
+
 // Create one company
-Companies.create = (newCompany, result) => {
+Companies.create = (newCompany, newInf, result) => {
     console.log("2.- Model");
     //console.log(newCompany);
     sql.query("INSERT INTO company SET ?", newCompany, (err, res) => {
@@ -31,6 +41,17 @@ Companies.create = (newCompany, result) => {
             result(err, null);
             return;
         }
+        newInf["company_id_company"] = res.insertId;
+
+        console.log(newInf);
+        sql.query("INSERT INTO information SET ?", newInf, (err, res) => {
+            if (err) {
+                console.log("errorw: ", err);
+                result(err, null);
+                return;
+            }
+        })
+        console.log(res.insertId);
         console.log("Empresa Creada: ", { id: res.id_company, ...newCompany });
         result(null, { id: res.id_company, ...newCompany });
     });
@@ -57,7 +78,7 @@ Companies.findById = (id_company, result) => {
 // Get All Users
 Companies.getAll = result => {
     console.log("2.- Model");
-    sql.query("SELECT * FROM company", (err, res) => {
+    sql.query("SELECT * FROM company, information WHERE company_id_company = id_company", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

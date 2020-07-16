@@ -1,0 +1,37 @@
+const Inf = function(company) {
+    this.id_information = company.id_information;
+    this.contact_name = company.contact_name;
+    this.job = company.job;
+    this.contact_tel = company.contact_tel;
+    this.contact_email = company.contact_email;
+    this.company_start = company.company_start;
+    this.facilities = company.facilities;
+    this.scope_of_operations = company.scope_of_operations;
+    this.sales_range = company.sales_range;
+    this.distribution = company.distribution;
+    this.export = company.export;
+    this.import = company.import;
+    this.percentage_main = company.percentage_main;
+    this.main_activity = company.main_activity;
+    this.percentage_secondary = company.percentage_secondary;
+    this.secondary_activity = company.secondary_activity;
+    this.percentage_tertiary = company.percentage_tertiary;
+    this.tertiary_activity = company.tertiary_activity;
+    this.activity_code = company.activity_code;
+    this.employees = company.employees;
+    this.female_employees = company.female_employees;
+    this.attention_area = company.attention_area;
+    this.financing = company.financing;
+    this.digital_equipment = company.digital_equipment;
+    this.internet = company.internet;
+    this.advertising = company.advertising;
+    this.training = company.training;
+    this.facebook = company.facebook;
+    this.business_group = company.business_group;
+    this.cluster = company.cluster;
+    this.productive_chain = company.productive_chain;
+    this.distinctive = company.distinctive;
+    this.company_id_company = company.company_id_company;
+
+};
+module.exports = Inf;
