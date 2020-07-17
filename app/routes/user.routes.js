@@ -101,8 +101,6 @@ module.exports = app => {
 
     app.get('/services', service.findAll);
 
-    //app.get('/company/services/:companyId', service.getById);
-
     app.get('/services/:serviceId', service.getServiceById);
 
     app.put('/services/:serviceId', service.update);

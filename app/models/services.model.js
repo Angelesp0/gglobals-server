@@ -43,9 +43,11 @@ Services.findById = (id_company, result) => {
 };
 
 // Get 1 User From ID
-Services.findServiceById = (userId, result) => {
+Services.findServiceById = (id_service, result) => {
     console.log("2.- Model");
-    sql.query(`SELECT id_company, company, name_service,desc_service,status,start_date,end_date  FROM users, company, company_has_services, services WHERE id_user= ${userId} AND users_id_user=id_user AND id_company=company_id_company AND services_id_service=id_service`, (err, res) => {
+    //     sql.query(`SELECT id_company, company, name_service,desc_service,status,start_date,end_date  FROM users, company, company_has_services, services WHERE id_user= ${userId} AND users_id_user=id_user AND id_company=company_id_company AND services_id_service=id_service`, (err, res) => {
+
+    sql.query(`SELECT *  FROM services WHERE id_service= ${id_service}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
