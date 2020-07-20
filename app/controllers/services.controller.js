@@ -30,7 +30,6 @@ exports.create = (req, res) => {
         desc_service: req.body.desc_service,
         price: req.body.price,
     });
-    console.log(service);
     // Save Customer in the database
     Services.create(service, (err, data) => {
         if (err)
@@ -182,8 +181,8 @@ exports.getServiceById = (req, res) => {
 }
 
 exports.findByUserId = (req, res) => {
-    console.log("1.- Controlador --------------------");
-    Services.findServiceById(req.params.userId, (err, data) => {
+    console.log("1.- Controlador");
+    Services.findServiceByUserId(req.params.userId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

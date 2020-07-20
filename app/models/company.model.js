@@ -3,7 +3,6 @@ const sql = require("./db.js");
 const Companies = function(company) {
     this.id_company = company.id_company;
     this.company = company.company;
-    this.service = company.service;
     this.rfc = company.rfc;
     this.state = company.state;
     this.city = company.city;
@@ -103,7 +102,7 @@ Companies.getAllfiles = result => {
 // update User
 Companies.updateById = (id_company, company, result) => {
     sql.query(
-        "UPDATE company SET rfc = ?, street = ?, cp = ?, city = ?, tel = ?, company = ?, num_ext = ?, num_int = ?, state = ?, colony = ?, name = ?, last_name = ?, mobile = ?, email = ?, service = ?, invoice = ?, users_id_user = ? WHERE id_company = ? ", [company.rfc, company.street, company.cp, company.city, company.tel, company.company, company.num_ext, company.num_int, company.state, company.colony, company.name, company.last_name, company.mobile, company.email, company.service, company.invoice, company.users_id_user, id_company],
+        "UPDATE company SET rfc = ?, street = ?, cp = ?, city = ?, tel = ?, company = ?, num_ext = ?, num_int = ?, state = ?, colony = ?, name = ?, last_name = ?, mobile = ?, email = ?, invoice = ?, users_id_user = ? WHERE id_company = ? ", [company.rfc, company.street, company.cp, company.city, company.tel, company.company, company.num_ext, company.num_int, company.state, company.colony, company.name, company.last_name, company.mobile, company.email, company.invoice, company.users_id_user, id_company],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
