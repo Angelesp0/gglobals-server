@@ -40,19 +40,16 @@ Companies.create = (newCompany, newInf, result) => {
             result(err, null);
             return;
         }
+        const company = res.insertId;
         newInf["company_id_company"] = res.insertId;
-
-        console.log(newInf);
         sql.query("INSERT INTO information SET ?", newInf, (err, res) => {
             if (err) {
                 console.log("errorw: ", err);
                 result(err, null);
                 return;
             }
+            result(null, { newInf, newCompany });
         })
-        console.log(res.insertId);
-        console.log("Empresa Creada: ", { id: res.id_company, ...newCompany });
-        result(null, { id: res.id_company, ...newCompany });
     });
 };
 // Get 1 User From ID

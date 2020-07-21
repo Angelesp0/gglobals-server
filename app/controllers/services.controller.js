@@ -1,4 +1,5 @@
 const Services = require("../models/services.model.js");
+const Company_has_Services = require("../models/company_has_services");
 var multer = require('multer')
 
 const path = require('path')
@@ -197,3 +198,29 @@ exports.findByUserId = (req, res) => {
     });
 
 }
+
+exports.companyhasservice = (req, res) => {
+    console.log("1.- Controlador");
+    // Validate request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    // Create a Customer
+    const company_has_Services = new Company_has_Services({
+        company_id_company: req.body.company_id_company,
+        services_id_service: req.body.services_id_service,
+        status: req.body.status,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date
+    });
+    // Save Customer in the database
+    Services.createRelation(company_has_Services, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Algo a currido al crear la Empresa"
+            });
+        else res.send(data);
+    });
+};

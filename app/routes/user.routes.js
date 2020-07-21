@@ -94,9 +94,6 @@ module.exports = app => {
     //========================================Services================================================================================//
     app.post('/services1', upload.single('file'), service.create1);
 
-
-
-
     app.post("/services", service.create);
 
     app.get('/services', service.findAll);
@@ -110,6 +107,9 @@ module.exports = app => {
     app.get('/company/services/:companyId', service.findByCompanyId);
 
     app.get('/user/:userId/services', service.findByUserId);
+
+    app.post('/company_services', service.companyhasservice);
+
 
 
 

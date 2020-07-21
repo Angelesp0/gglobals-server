@@ -158,4 +158,19 @@ Services.findByCompanyId = (id_company, result) => {
         result({ kind: "LA empresa no tiene servicios" }, null);
     });
 }
+
+// Create one company
+Services.createRelation = (company_has_Services, result) => {
+    console.log(company_has_Services);
+    console.log("2.- Model");
+    sql.query("INSERT INTO company_has_services SET ?", company_has_Services, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        console.log("Servicio Creado: ", { id: res.id_service, ...company_has_Services });
+        result(null, { id: res.id_service, ...company_has_Services });
+    });
+};
 module.exports = Services;

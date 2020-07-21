@@ -1,5 +1,6 @@
 const Companies = require("../models/company.model.js");
 const Inf = require("../models/company_inf.model.js");
+const Company_has_Services = require("../models/company_has_services");
 
 
 
@@ -42,39 +43,46 @@ exports.create = (req, res) => {
 
     });
     const inf = new Inf({
-        contact_name: req.body.contact_name,
-        job: req.body.job,
-        contact_tel: req.body.contact_tel,
-        contact_email: req.body.contact_email,
-        company_start: req.body.company_start,
-        facilities: req.body.facilities,
-        scope_of_operations: req.body.scope_of_operations,
-        sales_range: req.body.sales_range,
-        distribution: req.body.distribution,
-        export: req.body.export,
-        import: req.body.import,
-        percentage_main: req.body.percentage_main,
-        main_activity: req.body.main_activity,
-        percentage_secondary: req.body.percentage_secondary,
-        secondary_activity: req.body.secondary_activity,
-        percentage_tertiary: req.body.percentage_tertiary,
-        tertiary_activity: req.body.tertiary_activity,
-        activity_code: req.body.activity_code,
-        employees: req.body.employees,
-        female_employees: req.body.female_employees,
-        attention_area: req.body.attention_area,
-        financing: req.body.financing,
-        digital_equipment: req.body.digital_equipment,
-        internet: req.body.internet,
-        advertising: req.body.advertising,
-        training: req.body.training,
-        facebook: req.body.facebook,
-        business_group: req.body.business_group,
-        users_id_user: req.body.users_id_user,
-        cluster: req.body.cluster,
-        productive_chain: req.body.productive_chain,
-        distinctive: req.body.distinctive,
-    })
+            contact_name: req.body.contact_name,
+            job: req.body.job,
+            contact_tel: req.body.contact_tel,
+            contact_email: req.body.contact_email,
+            company_start: req.body.company_start,
+            facilities: req.body.facilities,
+            scope_of_operations: req.body.scope_of_operations,
+            sales_range: req.body.sales_range,
+            distribution: req.body.distribution,
+            export: req.body.export,
+            import: req.body.import,
+            percentage_main: req.body.percentage_main,
+            main_activity: req.body.main_activity,
+            percentage_secondary: req.body.percentage_secondary,
+            secondary_activity: req.body.secondary_activity,
+            percentage_tertiary: req.body.percentage_tertiary,
+            tertiary_activity: req.body.tertiary_activity,
+            activity_code: req.body.activity_code,
+            employees: req.body.employees,
+            female_employees: req.body.female_employees,
+            attention_area: req.body.attention_area,
+            financing: req.body.financing,
+            digital_equipment: req.body.digital_equipment,
+            internet: req.body.internet,
+            advertising: req.body.advertising,
+            training: req.body.training,
+            facebook: req.body.facebook,
+            business_group: req.body.business_group,
+            users_id_user: req.body.users_id_user,
+            cluster: req.body.cluster,
+            productive_chain: req.body.productive_chain,
+            distinctive: req.body.distinctive,
+        })
+        /*const company_has_Services = new Company_has_Services({
+            company_id_company: req.body.company_id_company,
+            services_id_service: req.body.services_id_service,
+            status: req.body.status,
+            start_date: req.body.start_date,
+            end_date: req.body.end_date
+        });*/
 
     // Save Customer in the database
     Companies.create(company, inf, (err, data) => {
