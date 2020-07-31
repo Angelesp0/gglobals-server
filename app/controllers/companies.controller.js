@@ -1,7 +1,7 @@
 const Companies = require("../models/company.model.js");
 const Inf = require("../models/company_inf.model.js");
-const Company_has_Services = require("../models/company_has_services");
-
+const Location = require("./../models/location.model.js");
+const Image = require("./../models/img.model.js");
 
 
 // Create One Companies
@@ -27,7 +27,6 @@ exports.create = (req, res) => {
         tel: req.body.tel,
         num_ext: req.body.num_ext,
         num_int: req.body.num_int,
-        invoice: req.body.invoice,
         users_id_user: req.body.users_id_user,
         img: req.body.img,
         floor: req.body.floor,
@@ -52,8 +51,6 @@ exports.create = (req, res) => {
             scope_of_operations: req.body.scope_of_operations,
             sales_range: req.body.sales_range,
             distribution: req.body.distribution,
-            export: req.body.export,
-            import: req.body.import,
             percentage_main: req.body.percentage_main,
             main_activity: req.body.main_activity,
             percentage_secondary: req.body.percentage_secondary,
@@ -174,6 +171,67 @@ exports.delete = (req, res) => {
 exports.findByCompanyId = (req, res) => {
     console.log("1.- Controlador");
     Companies.findByCompanyId(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontraron documentos`
+                });
+            } else {
+                res.status(500).send({
+                    message: "No Hay documentos para esta empresa "
+                });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.postLocation = (req, res) => {
+    console.log("1.- Controlador");
+    const location = new Location({
+        lat: req.body.lat,
+        lng: req.body.lng,
+        label: req.body.label,
+        company_id_company: req.body.company_id_company,
+    })
+    Companies.setLocation(location, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Algo a currido al registrar la ubicacion"
+            });
+        else res.send(data);
+    });
+}
+
+// Create One Companies
+exports.img = (req, res) => {
+    console.log("1.- Controlador");
+    // Validate request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    // Create a Customer
+    const imagen = new Image({
+        url: './public',
+        nombre: req.file.filename,
+        category: req.body.category,
+        company_id_company: req.body.company_id_company
+    });
+    // Save Customer in the database
+    Companies.img(imagen, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Algo a currido al crear la Empresa"
+            });
+        else res.send(data);
+
+    });
+}
+
+exports.contract = (req, res) => {
+    console.log("1.- Controlador");
+    Companies.contract(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

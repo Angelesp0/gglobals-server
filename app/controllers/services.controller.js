@@ -1,19 +1,6 @@
 const Services = require("../models/services.model.js");
 const Company_has_Services = require("../models/company_has_services");
-var multer = require('multer')
-
-const path = require('path')
-
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-})
-const upload = multer({ storage });
-
+const Payment = require("./../models/payment")
 
 // Create One Companies
 exports.create = (req, res) => {
@@ -223,4 +210,60 @@ exports.companyhasservice = (req, res) => {
             });
         else res.send(data);
     });
+
 };
+
+exports.payment = (req, res) => {
+    console.log(res.body);
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    Services.payment(req.params.companyId, req.body, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.companyId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error updating Customer with id " + req.params.companyId
+                });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.payment_register = (req, res) => {
+    console.log("1.- Controlador");
+    // Validate request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    // Create a Customer
+    const payment = new Payment({
+        id: req.body.id,
+        value: req.body.value,
+        description: req.body.description,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        company_id_company: req.params.companyId
+
+    });
+    Services.register(payment, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.companyId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error updating Customer with id " + req.params.companyId
+                });
+            }
+        } else res.send(data);
+    });
+}

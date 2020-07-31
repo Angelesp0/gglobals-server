@@ -17,9 +17,14 @@ module.exports = app => {
             cb(null, './public')
         },
         filename: (req, file, cb) => {
+            if (file.originalname == 'blob') {
+                file.originalname = 'hola.png';
+            }
+            console.log(file);
             cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
         }
     })
+
     const upload = multer({ storage });
 
     // auth user route
@@ -61,6 +66,12 @@ module.exports = app => {
 
     // Delete a company with companyId
     app.delete("/companies/:companyId", company.delete);
+
+    app.post("/companies/location", company.postLocation);
+
+    app.post("/companies/img", upload.single('file'), company.img);
+
+    app.get('/contract/:companyId', company.contract);
 
 
     //========================================Documents================================================================================//
@@ -109,6 +120,13 @@ module.exports = app => {
     app.get('/user/:userId/services', service.findByUserId);
 
     app.post('/company_services', service.companyhasservice);
+
+    app.put('/company_services/:companyId', service.payment);
+
+    app.post('/payment/:companyId', service.payment_register)
+
+
+
 
 
 

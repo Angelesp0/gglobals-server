@@ -161,7 +161,6 @@ Services.findByCompanyId = (id_company, result) => {
 
 // Create one company
 Services.createRelation = (company_has_Services, result) => {
-    console.log(company_has_Services);
     console.log("2.- Model");
     sql.query("INSERT INTO company_has_services SET ?", company_has_Services, (err, res) => {
         if (err) {
@@ -173,4 +172,56 @@ Services.createRelation = (company_has_Services, result) => {
         result(null, { id: res.id_service, ...company_has_Services });
     });
 };
+
+Services.payment = (id_company, id_service, result) => {
+    console.log(id_company);
+    console.log(id_service);
+    let date_ob = new Date();
+
+    // current year
+    let year = date_ob.getFullYear();
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let month1 = ("0" + (date_ob.getMonth() + 2)).slice(-2);
+
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let datenow = (year + "-" + month + "-" + date);
+    let dateend = (year + "-" + month1 + "-" + date);
+
+
+    sql.query(
+        "UPDATE company_has_services SET status = ?, start_date = ?, end_date= ?  WHERE company_id_company = ? AND services_id_service = ? ", [1, datenow, dateend, id_company, id_service.services_id_service, ],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated payment: ", { id_company: id_company });
+            result(null, { id_company: id_company });
+        }
+    );
+};
+
+Services.register = (payment, result) => {
+    console.log("2.- Model");
+    sql.query("INSERT INTO payments SET ?", payment, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, { payment });
+    });
+};
+
+
 module.exports = Services;
