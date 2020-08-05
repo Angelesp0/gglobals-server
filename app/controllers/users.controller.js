@@ -110,6 +110,23 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find one user by id
+exports.getExecutive = (req, res) => {
+    Users.getExecutive1((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id .`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id "
+                });
+            }
+        } else res.send(data);
+    });
+};
+
 // Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
     Users.getAll((err, data) => {
@@ -165,5 +182,3 @@ exports.delete = (req, res) => {
         } else res.send({ message: `Customer was deleted successfully!` });
     });
 };
-
-//file upload

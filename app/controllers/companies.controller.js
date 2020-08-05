@@ -245,3 +245,36 @@ exports.contract = (req, res) => {
         } else res.send(data);
     });
 }
+exports.getcontract = (req, res) => {
+    console.log("1.- Controlador");
+    Companies.getcontract1(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontraron documentos`
+                });
+            } else {
+                res.status(500).send({
+                    message: "No Hay documentos para esta empresa "
+                });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getfirm = (req, res) => {
+    console.log("1.- Controlador");
+    Companies.getfirms((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontraron documentos`
+                });
+            } else {
+                res.status(500).send({
+                    message: "No Hay documentos para esta empresa "
+                });
+            }
+        } else res.send(data);
+    });
+}

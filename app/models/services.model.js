@@ -9,7 +9,6 @@ const Services = function(service) {
 };
 // Create one company
 Services.create1 = (newService, result) => {
-    console.log(newService);
     console.log("2.- Model");
     sql.query("INSERT INTO services SET ?", newService, (err, res) => {
         if (err) {
@@ -174,8 +173,6 @@ Services.createRelation = (company_has_Services, result) => {
 };
 
 Services.payment = (id_company, id_service, result) => {
-    console.log(id_company);
-    console.log(id_service);
     let date_ob = new Date();
 
     // current year
@@ -219,7 +216,7 @@ Services.register = (payment, result) => {
             result(err, null);
             return;
         }
-        result(null, { payment });
+        result(null, { id_table: res.insertId, ...payment });
     });
 };
 

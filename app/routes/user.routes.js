@@ -5,6 +5,7 @@ module.exports = app => {
     const documents = require('./../controllers/documents.controller');
     const company = require("../controllers/companies.controller.js");
     const service = require("../controllers/services.controller.js");
+    const commission = require('../controllers/commission.controller.js');
 
     const checkToken = require("./middleware");
     var multer = require('multer')
@@ -17,8 +18,13 @@ module.exports = app => {
             cb(null, './public')
         },
         filename: (req, file, cb) => {
+            console.log(file);
+            console.log(file.name);
             if (file.originalname == 'blob') {
                 file.originalname = 'hola.png';
+            }
+            if (file.mimetype == 'application/pdf') {
+                file.originalname = 'hola.pdf';
             }
             console.log(file);
             cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -48,6 +54,8 @@ module.exports = app => {
     // Delete a Customer with customerId
     app.delete("/users/:userId", users.delete);
 
+    // Delete a Customer with customerId
+    app.get("/executive", users.getExecutive);
 
     //========================================Company================================================================================//
 
@@ -72,6 +80,12 @@ module.exports = app => {
     app.post("/companies/img", upload.single('file'), company.img);
 
     app.get('/contract/:companyId', company.contract);
+
+    app.get('/getcontract/:companyId', company.getcontract);
+
+    app.get('/getfirm/', company.getfirm);
+
+
 
 
     //========================================Documents================================================================================//
@@ -123,8 +137,13 @@ module.exports = app => {
 
     app.put('/company_services/:companyId', service.payment);
 
-    app.post('/payment/:companyId', service.payment_register)
+    app.post('/payment/:companyId', service.payment_register);
 
+    //========================================Comisiones================================================================================//
+
+    app.get('/commission', commission.getAll);
+
+    app.post('/commission', commission.create);
 
 
 

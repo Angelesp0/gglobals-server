@@ -56,8 +56,28 @@ Users.findById = (userId, result) => {
         // not found Customer with the id
         result({ kind: "not_found" }, null);
     });
+};
+
+// Get 1 User From ID
+Users.getExecutive1 = (result) => {
+    sql.query('SELECT * FROM users WHERE role_id_role = 2', (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
 
 };
+
 
 Users.findByEmail = (email) => {
     console.log("2.- Model");

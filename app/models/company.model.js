@@ -203,5 +203,49 @@ Companies.contract = (id_company, result) => {
     });
 };
 
+// Get 1 User From ID
+Companies.getcontract1 = (id_company, result) => {
+    console.log("2.- Model");
+
+    sql.query(`SELECT nombre FROM files WHERE category = 'Contrato' and company_id_company =  ${id_company}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res[0]);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "Empresa no encontrada" }, null);
+    });
+};
+
+Companies.getfirms = (result) => {
+    console.log("2.- Model");
+
+    sql.query('SELECT * FROM firm', (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "Empresa no encontrada" }, null);
+    });
+};
+
+
+
+
 
 module.exports = Companies;
