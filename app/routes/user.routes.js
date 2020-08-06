@@ -1,4 +1,5 @@
 const { request } = require("express");
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
@@ -7,7 +8,6 @@ module.exports = app => {
     const service = require("../controllers/services.controller.js");
     const commission = require('../controllers/commission.controller.js');
 
-    const checkToken = require("./middleware");
     var multer = require('multer')
     const sql = require("./../models/db.js");
 
@@ -36,7 +36,7 @@ module.exports = app => {
     // auth user route
     app.post('/auth', users.login);
 
-    app.use(checkToken);
+    app.use(validarJWT);
     //========================================Users================================================================================//
 
     // Create a new Customer

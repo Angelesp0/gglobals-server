@@ -1,17 +1,18 @@
 const Users = require("../models/user.model.js");
 const conf = require("./../config/jwt.config");
 const bcrypt = require('bcrypt');
-const jwt = require('jwt-simple');
 const moment = require('moment');
+const { generarJWT } = require('../helpers/jwt');
 
-const createToken = (user) => {
+
+/*const createToken = (user) => { 
     let payload = {
         userId: user.id,
         createAt: moment().unix(),
         expiresAt: moment().add(1, 'day').unix()
     }
     return jwt.encode(payload, conf.TOKEN_KEY);
-};
+};*/
 
 async function hashPassword(password) {
     return await bcrypt.hash(password, 10);
@@ -56,6 +57,10 @@ exports.create = async(req, res, next) => {
 
 // login 
 exports.login = async(request, response) => {
+
+    //const serverTest = await fr.generarJWT();
+
+
     console.log("1.- Controlador");
     const user = await Users.findByEmail(request.body.username);
     //const role_menu = await Users.findRoleMenu(user['role_id_role']);
@@ -74,7 +79,7 @@ exports.login = async(request, response) => {
             response.json({
                 //role_menu,
                 user,
-                succesfull: createToken(user),
+                succesfull: await generarJWT(user),
                 done: 'Login correct'
             })
         }
