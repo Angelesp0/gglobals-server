@@ -57,6 +57,16 @@ module.exports = app => {
     // Delete a Customer with customerId
     app.get("/executive", users.getExecutive);
 
+    // Delete a Customer with customerId
+    app.get("/admin", users.getAdmin);
+
+    // obtiene las notificaciones 
+    app.get('/notifications/:userId', users.getNotifications);
+
+    app.post('/notifications/:userId', users.postNotifications)
+
+
+
     //========================================Company================================================================================//
 
 
@@ -84,7 +94,6 @@ module.exports = app => {
     app.get('/getcontract/:companyId', company.getcontract);
 
     app.get('/getfirm/', company.getfirm);
-
 
 
 

@@ -1,4 +1,5 @@
 const Users = require("../models/user.model.js");
+const Notifications = require('../models/notifications.model.js');
 const conf = require("./../config/jwt.config");
 const bcrypt = require('bcrypt');
 const moment = require('moment');
@@ -132,6 +133,25 @@ exports.getExecutive = (req, res) => {
     });
 };
 
+// Find one user by id
+exports.getAdmin = (req, res) => {
+    Users.getAdmin((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id .`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id "
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+
+
 // Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
     Users.getAll((err, data) => {
@@ -185,5 +205,50 @@ exports.delete = (req, res) => {
                 });
             }
         } else res.send({ message: `Customer was deleted successfully!` });
+    });
+};
+
+exports.getNotifications = (req, res) => {
+    Users.getNotifications(req.params.userId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id .`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id "
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+// Create One User
+exports.postNotifications = (req, res) => {
+    console.log("controlador");
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    // Create a Customer
+    const notification = new Notifications({
+        id_sender: req.params.userId,
+        message: req.body.message,
+        status: 'unread',
+        time: req.body.time,
+        users_id_user: req.body.users_id_user,
+        data: req.body.data
+    });
+
+    // Save Customer in the database
+    Users.postNotifications(notification, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Algo a currido al buscar las notificaciones"
+            });
+        else res.send(data);
     });
 };

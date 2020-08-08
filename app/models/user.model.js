@@ -66,17 +66,51 @@ Users.getExecutive1 = (result) => {
             result(err, null);
             return;
         }
-
         if (res.length) {
             result(null, res);
             return;
         }
-
         // not found Customer with the id
         result({ kind: "not_found" }, null);
     });
-
 };
+
+// Get 1 User From ID
+Users.getAdmin = (result) => {
+    sql.query('SELECT * FROM users WHERE role_id_role = 1', (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+
+Users.getNotifications = (id_addressee, result) => {
+    sql.query('SELECT id_notifications, id_sender, message, status, time, users_id_user, data, first_name, last_name, img FROM notifications, users WHERE users_id_user = ? and id_user = id_sender', id_addressee, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
 
 
 Users.findByEmail = (email) => {
@@ -182,5 +216,19 @@ Users.findImage = (id_user) => {
         });
     }
     */
+
+// Create one user
+Users.postNotifications = (notifications, result) => {
+    sql.query("INSERT INTO notifications SET ?", notifications, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        console.log("Notificacion creada: ", { id: res.insertId, ...notifications });
+        result(null, { id: res.insertId, ...notifications });
+    });
+};
 
 module.exports = Users;
