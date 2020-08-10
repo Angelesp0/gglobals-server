@@ -224,6 +224,51 @@ exports.getNotifications = (req, res) => {
     });
 };
 
+exports.getNotificationsById = (req, res) => {
+    Users.getNotificationsById(req.params.userId, req.params.notificationId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id .`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id "
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+
+exports.updateNotification = (req, res) => {
+    console.log('1.- controller');
+    // Validate Request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    Users.updateNotification(req.params.notificationId, (err, data) => {
+        console.log(req.query);
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error updating Customer with id " + req.params.userId
+                });
+            }
+        } else res.send(data);
+    });
+
+};
+
+
+
 // Create One User
 exports.postNotifications = (req, res) => {
     console.log("controlador");
@@ -236,6 +281,7 @@ exports.postNotifications = (req, res) => {
     // Create a Customer
     const notification = new Notifications({
         id_sender: req.params.userId,
+        subject: req.body.subject,
         message: req.body.message,
         status: 'unread',
         time: req.body.time,

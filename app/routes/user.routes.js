@@ -63,6 +63,11 @@ module.exports = app => {
     // obtiene las notificaciones 
     app.get('/notifications/:userId', users.getNotifications);
 
+    app.get('/notifications/:userId/:notificationId', users.getNotificationsById);
+
+    // Update a Customer with customerId
+    app.put('/notifications/:notificationId', users.updateNotification);
+
     app.post('/notifications/:userId', users.postNotifications)
 
 

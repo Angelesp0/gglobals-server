@@ -95,7 +95,8 @@ Users.getAdmin = (result) => {
 
 
 Users.getNotifications = (id_addressee, result) => {
-    sql.query('SELECT id_notifications, id_sender, message, status, time, users_id_user, data, first_name, last_name, img FROM notifications, users WHERE users_id_user = ? and id_user = id_sender', id_addressee, (err, res) => {
+    //AND status = "unread" 
+    sql.query('SELECT id_notifications, id_sender, subject, message, status, time, users_id_user, data, first_name, last_name, img FROM notifications, users WHERE users_id_user = ? and id_user = id_sender AND status = "unread" order by id_notifications desc ', id_addressee, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -109,6 +110,25 @@ Users.getNotifications = (id_addressee, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+
+Users.getNotificationsById = (id_addressee, id_notification, result) => {
+    //
+    sql.query('SELECT subject FROM notifications, users WHERE users_id_user = ? and id_user = id_sender AND id_notifications = ?', [id_addressee, id_notification], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
 
 
 
@@ -163,6 +183,31 @@ Users.updateById = (id_user, user, result) => {
 
             console.log("updated usuario: ", { id_user: id_user, ...user });
             result(null, { id_user: id_user, ...user });
+        }
+    );
+};
+
+// update User
+Users.updateNotification = (id_notification, result) => {
+    console.log("2.- Model");
+    sql.query(
+        "UPDATE notifications SET subject = 'aceptado', status ='read' WHERE id_notifications = ?", id_notification,
+        (err, res) => {
+            console.log(res);
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("notificacion actualizado con exito");
+            result(null, { mensaje: 'notificacion actualizado con exito' });
         }
     );
 };
