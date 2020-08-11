@@ -113,7 +113,7 @@ Users.getNotifications = (id_addressee, result) => {
 
 Users.getNotificationsById = (id_addressee, id_notification, result) => {
     //
-    sql.query('SELECT subject FROM notifications, users WHERE users_id_user = ? and id_user = id_sender AND id_notifications = ?', [id_addressee, id_notification], (err, res) => {
+    sql.query('SELECT subject, data FROM notifications, users WHERE users_id_user = ? and id_user = id_sender AND id_notifications = ?', [id_addressee, id_notification], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -188,12 +188,11 @@ Users.updateById = (id_user, user, result) => {
 };
 
 // update User
-Users.updateNotification = (id_notification, result) => {
+Users.updateNotification = (id_notification, data, result) => {
     console.log("2.- Model");
     sql.query(
-        "UPDATE notifications SET subject = 'aceptado', status ='read' WHERE id_notifications = ?", id_notification,
+        "UPDATE notifications SET subject = 'aceptado', status ='read', data = ? WHERE id_notifications = ?", [data, id_notification],
         (err, res) => {
-            console.log(res);
             if (err) {
                 console.log("error: ", err);
                 result(null, err);

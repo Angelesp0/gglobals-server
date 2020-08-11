@@ -242,6 +242,7 @@ exports.getNotificationsById = (req, res) => {
 
 
 exports.updateNotification = (req, res) => {
+    console.log(req.body);
     console.log('1.- controller');
     // Validate Request
     if (!req.body) {
@@ -250,7 +251,7 @@ exports.updateNotification = (req, res) => {
         });
     }
 
-    Users.updateNotification(req.params.notificationId, (err, data) => {
+    Users.updateNotification(req.params.notificationId, req.body.data, (err, data) => {
         console.log(req.query);
         if (err) {
             if (err.kind === "not_found") {
@@ -271,7 +272,8 @@ exports.updateNotification = (req, res) => {
 
 // Create One User
 exports.postNotifications = (req, res) => {
-    console.log("controlador");
+    console.log(req.body);
+    console.log("controlador----post");
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
