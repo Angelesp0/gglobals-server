@@ -7,8 +7,10 @@ module.exports = app => {
     const company = require("../controllers/companies.controller.js");
     const service = require("../controllers/services.controller.js");
     const commission = require('../controllers/commission.controller.js');
+    const receipt = require('../controllers/receipt.controller');
 
     var multer = require('multer')
+
     const sql = require("./../models/db.js");
 
     const path = require('path')
@@ -18,19 +20,26 @@ module.exports = app => {
             cb(null, './public')
         },
         filename: (req, file, cb) => {
-            console.log(file);
-            console.log(file.name);
+
             if (file.originalname == 'blob') {
                 file.originalname = 'hola.png';
             }
             if (file.mimetype == 'application/pdf') {
-                file.originalname = 'hola.pdf';
+                console.log('hola');
+                //          servicio rif
+                if (file.originalname === 'RCR.pdf') {
+                    file.fieldname = 'RCR';
+                }
+                //          servicio P.fisica
+                if (file.originalname === 'RCE.pdf') {
+                    file.fieldname = 'RCE';
+                } else {
+                    file.originalname = 'hola.pdf';
+                }
             }
-            console.log(file);
             cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
         }
-    })
-
+    });
     const upload = multer({ storage });
 
     // auth user route
@@ -68,7 +77,7 @@ module.exports = app => {
     // Update a Customer with customerId
     app.put('/notifications/:notificationId', users.updateNotification);
 
-    app.post('/notifications/:userId', users.postNotifications)
+    app.post('/notifications/:userId', users.postNotifications);
 
 
 
@@ -129,6 +138,11 @@ module.exports = app => {
         });
         return result.send(req.file);
     });
+    //========================================Recibos================================================================================//
+    app.post('/receipt', upload.single('file'), receipt.create);
+    app.get('/receipt', receipt.total);
+    app.get('/receipt/:receiptId', receipt.getById);
+
 
     //========================================Services================================================================================//
     app.post('/services1', upload.single('file'), service.create1);
@@ -158,10 +172,5 @@ module.exports = app => {
     app.get('/commission', commission.getAll);
 
     app.post('/commission', commission.create);
-
-
-
-
-
 
 };
