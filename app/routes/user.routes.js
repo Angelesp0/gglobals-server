@@ -1,5 +1,7 @@
 const { request } = require("express");
 const { validarJWT } = require('../middlewares/validar-jwt');
+const configMensaje = require('./../helpers/configMensaje');
+
 
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
@@ -173,4 +175,10 @@ module.exports = app => {
 
     app.post('/commission', commission.create);
 
+
+    //========================================Comisiones================================================================================//
+    app.post('/email', (req, res) => {
+        configMensaje(req.body);
+        res.status(200).send();
+    })
 };
