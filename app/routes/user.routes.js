@@ -10,6 +10,8 @@ module.exports = app => {
     const service = require("../controllers/services.controller.js");
     const commission = require('../controllers/commission.controller.js');
     const receipt = require('../controllers/receipt.controller');
+    const contract = require('../controllers/contract.controller');
+
 
     var multer = require('multer')
 
@@ -111,6 +113,8 @@ module.exports = app => {
 
     app.get('/getfirm/', company.getfirm);
 
+    app.get('/contractByIdCompany', contract.total);
+
 
 
     //========================================Documents================================================================================//
@@ -176,7 +180,7 @@ module.exports = app => {
     app.post('/commission', commission.create);
 
 
-    //========================================Comisiones================================================================================//
+    //========================================Email================================================================================//
     app.post('/email', (req, res) => {
         configMensaje(req.body);
         res.status(200).send();
