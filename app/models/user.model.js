@@ -12,6 +12,7 @@ const Users = function(user) {
     this.role_id_role = 3;
     this.email = user.email;
     this.password = user.password;
+    this.username = user.username;
 };
 
 // Create one user
@@ -128,11 +129,6 @@ Users.getNotificationsById = (id_addressee, id_notification, result) => {
     });
 };
 
-
-
-
-
-
 Users.findByEmail = (email) => {
     console.log("2.- Model");
     return new Promise((resolve, reject) => {
@@ -142,6 +138,17 @@ Users.findByEmail = (email) => {
         });
     });
 };
+
+Users.findByUsername = (user) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT * FROM users WHERE username = ?  ", [user], (err, res) => {
+            if (err) reject(err)
+            resolve(res[0]);
+        });
+    });
+};
+
 
 Users.findRoleMenu = (id_role) => {
     console.log("3.- Roles");

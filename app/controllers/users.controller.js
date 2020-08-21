@@ -26,7 +26,7 @@ exports.create = async(req, res, next) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "El Contenido no puede estar vacio!"
         });
     }
 
@@ -41,6 +41,7 @@ exports.create = async(req, res, next) => {
         cp: req.body.cp,
         role_id_role: req.body.role_id_role,
         email: req.body.email,
+        username: req.body.username,
         password: hashedPassword
     });
     console.log(hashPassword);
@@ -63,25 +64,27 @@ exports.login = async(request, response) => {
 
 
     console.log("1.- Controlador");
-    const user = await Users.findByEmail(request.body.username);
+    // const user = await Users.findByEmail(request.body.username);
+    const user = await Users.findByUsername(request.body.username);
+
     //const role_menu = await Users.findRoleMenu(user['role_id_role']);
     if (user === undefined) {
         console.log(user);
         response.json({
-            error: 'Error, email or password not found'
+            error: 'Error, Email o Contraseña incorrecta'
         });
     } else {
         const equals = bcrypt.compareSync(request.body.password, user.password);
         if (!equals) {
             response.json({
-                erro: 'Error, email or password not found'
+                erro: 'Error, Email o Contraseña incorrecta'
             });
         } else {
             response.json({
                 //role_menu,
                 user,
                 succesfull: await generarJWT(user),
-                done: 'Login correct'
+                done: 'Login correcto'
             })
         }
     }
@@ -105,11 +108,11 @@ exports.findOne = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Customer with id ${req.params.userId}.`
+                    message: `No se encontro el usuario con el ID: ${req.params.userId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Customer with id " + req.params.userId
+                    message: "Error recibiendo los datos del usuario con el ID: " + req.params.userId
                 });
             }
         } else res.send(data);
@@ -122,11 +125,11 @@ exports.getExecutive = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Customer with id .`
+                    message: `No se encontro el Ejecutivo con el ID: `
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Customer with id "
+                    message: "Error recibiendo los datos del Ejecutivo"
                 });
             }
         } else res.send(data);
@@ -139,11 +142,11 @@ exports.getAdmin = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Customer with id .`
+                    message: `No se encontro el Administrador con el ID: `
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Customer with id "
+                    message: "Error recibiendo los datos del Administrador"
                 });
             }
         } else res.send(data);
@@ -157,7 +160,7 @@ exports.findAll = (req, res) => {
     Users.getAll((err, data) => {
         if (err)
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving customers."
+                message: err.message || "Algunos errores ocurrieron al obtener los datos."
             });
         else res.send(data);
     });
@@ -168,7 +171,7 @@ exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "El contenido no puede estar vacio!"
         });
     }
 

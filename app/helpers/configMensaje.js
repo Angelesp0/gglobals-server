@@ -10,7 +10,7 @@ module.exports = (formulario) => {
     const cliente = {
         from: `AppGlobals 👻 <${formulario.email}>`,
         to: `${formulario.email}`, // Cambia esta parte por el destinatario
-        subject: 'Datos Para facturacion (AppGlobals)',
+        subject: 'Bienvenido a Gestoria Empresarial Global Service',
         html: `
         <body style="margin: 0; padding: 0;">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">	
@@ -77,7 +77,12 @@ module.exports = (formulario) => {
             {
                 filename: 'Recibo.pdf',
                 path: `http://192.168.137.1:3000/files/${formulario.recibo}`
+            },
+            {
+                filename: 'Acuse.pdf',
+                path: `http://192.168.137.1:3000/files/${formulario.acuse}`
             }
+
         ]
     };
 
