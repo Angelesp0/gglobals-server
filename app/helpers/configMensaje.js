@@ -78,10 +78,8 @@ module.exports = (formulario) => {
                                                         <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
                                                                 <td align="center" style="Margin:0;padding-bottom:10px;padding-top:15px;padding-left:15px;padding-right:15px;font-size:0px">
-                                                                    <a target="_blank" href="https://gglobals.com.mx/" class="rollover" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:14px;text-decoration:underline;color:#84A5CA"><img src="images/64561598030035877.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="137" class="rollover-first">
-                                                                        <div style="font-size:0;mso-hide:all">
-                                                                            <img width="137" class="rollover-second" style="display:none;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-height:0px" src="https://gglobals.com.mx/" alt>
-                                                                        </div>
+                                                                    <a target="_blank" href="https://gglobals.com.mx/" class="rollover" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:14px;text-decoration:underline;color:#84A5CA">
+                                                                        <img src="cid:log@kreata.ee" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="137" class="rollover-first">
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -144,7 +142,7 @@ module.exports = (formulario) => {
                                         </td>
                                     </tr>
                                     <tr style="border-collapse:collapse">
-                                        <td align="left" background="images/64561598030035877.png" style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:20px;padding-right:20px;background-image:url(images/64561598030035877.png);background-repeat:no-repeat;background-position:center top">
+                                        <td align="left" background="cid:log@kreata.ee" style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:20px;padding-right:20px;background-image:url(cid:log@kreata.ee);background-repeat:no-repeat;background-position:center top">
                                             <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                 <tr style="border-collapse:collapse">
                                                     <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
@@ -598,7 +596,8 @@ module.exports = (formulario) => {
                                                         <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                             <tr style="border-collapse:collapse">
                                                                 <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:0px;font-size:0px;color:#CCCCCC">
-                                                                    <a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=construction3&utm_content=labor_day" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:12px;text-decoration:underline;color:#CCCCCC"><img src="http://192.168.137.1:3000/files/images/25211598044118665.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                                                    <a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=construction3&utm_content=labor_day" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:12px;text-decoration:underline;color:#CCCCCC" class="esd-frame-element esd-hover-element esdev-disable-select">
+                                                                        <img src="cid:log@kreata.ee" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -689,7 +688,12 @@ module.exports = (formulario) => {
             {
                 path: './public/images/64381561111477081.png',
                 cid: 'pub@kreata.ee'
+            },
+            {
+                path: './public/images/64561598030035877.png',
+                cid: 'log@kreata.ee'
             }
+
 
 
 

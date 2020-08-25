@@ -3,6 +3,7 @@ const sql = require("./db.js");
 const Companies = function(company) {
     this.id_company = company.id_company;
     this.company = company.company;
+    this.razon = company.razon;
     this.rfc = company.rfc;
     this.state = company.state;
     this.city = company.city;

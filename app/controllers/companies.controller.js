@@ -16,6 +16,7 @@ exports.create = (req, res) => {
     // Create a Customer
     const company = new Companies({
         company: req.body.company,
+        razon: req.body.razon,
         rfc: req.body.rfc,
         state: req.body.state,
         city: req.body.city,
