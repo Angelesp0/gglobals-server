@@ -109,6 +109,9 @@ module.exports = app => {
 
     app.get('/contract/:companyId', company.contract);
 
+    app.get("/companies/services/:companyId", company.service);
+
+
     app.get('/getcontract/:companyId', company.getcontract);
 
     app.get('/getfirm/', company.getfirm);

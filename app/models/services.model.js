@@ -16,7 +16,7 @@ Services.create1 = (newService, result) => {
             result(err, null);
             return;
         }
-        console.log("Servicio Creado: ", { id: res.id_service, ...newService });
+        console.log("Servicio Creado1: ", { id: res.insertId, ...newService });
         result(null, { id: res.id_service, ...newService });
     });
 };
@@ -167,8 +167,8 @@ Services.createRelation = (company_has_Services, result) => {
             result(err, null);
             return;
         }
-        console.log("Servicio Creado: ", { id: res.id_service, ...company_has_Services });
-        result(null, { id: res.id_service, ...company_has_Services });
+        console.log("Servicio Creado2: ", { id: res.insertId, ...company_has_Services });
+        result(null, { id: res.insertId, ...company_has_Services });
     });
 };
 

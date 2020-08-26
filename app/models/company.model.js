@@ -71,6 +71,27 @@ Companies.findById = (id_company, result) => {
         result({ kind: "Empresa no encontrada" }, null);
     });
 };
+
+// Get 1 User From ID
+Companies.service = (id_company, result) => {
+    console.log("2.- Model");
+    sql.query(`SELECT id_service, name_service FROM services, company_has_services WHERE company_id_company = ${id_company} AND id_service = services_id_service`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res[0]);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "Empresa no encontrada" }, null);
+    });
+};
+
 // Get All Users
 Companies.getAll = result => {
     console.log("2.- Model");

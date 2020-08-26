@@ -110,6 +110,24 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find one user by id
+exports.service = (req, res) => {
+    console.log("1.- Controlador");
+    Companies.service(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.id_company}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.id_company
+                });
+            }
+        } else res.send(data);
+    });
+};
+
 // Retrieve all Customers from the database.
 exports.findAll = (req, res) => {
     console.log("1.- Controlador");
