@@ -18,7 +18,7 @@ Commission.create = (commission, result) => {
             result(err, null);
             return;
         }
-        console.log("Archivo Creado: ", commission);
+        // console.log("Archivo Creado: ", commission);
         result(null, commission);
     });
 };

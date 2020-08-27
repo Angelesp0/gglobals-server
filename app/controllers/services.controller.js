@@ -214,7 +214,7 @@ exports.companyhasservice = (req, res) => {
 };
 
 exports.payment = (req, res) => {
-    console.log(res.body);
+    console.log("1.- Controlador");
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -250,7 +250,8 @@ exports.payment_register = (req, res) => {
         description: req.body.description,
         status: req.body.status,
         update_time: req.body.update_time,
-        company_id_company: req.params.companyId
+        company_id_company: req.params.companyId,
+        company_has_services_id_companys: req.body.company_has_services_id_companys
 
     });
     Services.register(payment, (err, data) => {

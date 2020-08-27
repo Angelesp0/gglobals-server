@@ -264,6 +264,7 @@ exports.contract = (req, res) => {
         } else res.send(data);
     });
 }
+
 exports.getcontract = (req, res) => {
     console.log("1.- Controlador");
     Companies.getcontract1(req.params.companyId, (err, data) => {

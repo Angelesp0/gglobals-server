@@ -75,7 +75,7 @@ Companies.findById = (id_company, result) => {
 // Get 1 User From ID
 Companies.service = (id_company, result) => {
     console.log("2.- Model");
-    sql.query(`SELECT id_service, name_service FROM services, company_has_services WHERE company_id_company = ${id_company} AND id_service = services_id_service`, (err, res) => {
+    sql.query(`SELECT id_service, name_service, id_companys, value, end_date FROM services, company_has_services, payments WHERE company_has_services.company_id_company = ${id_company} AND id_service = services_id_service AND id_companys = company_has_services_id_companys`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

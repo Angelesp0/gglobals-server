@@ -114,7 +114,7 @@ Services.updateById = (id_service, service, result) => {
                 return;
             }
 
-            console.log("updated usuario: ", { id_service: id_service, ...service });
+            // console.log("updated usuario: ", { id_service: id_service, ...service });
             result(null, { id_service: id_service, ...service });
         }
     );
@@ -135,7 +135,7 @@ Services.remove = (id_service, result) => {
             return;
         }
 
-        console.log("servicio eliminado con el id: ", id_service);
+        // console.log("servicio eliminado con el id: ", id_service);
         result(null, res);
     });
 };
@@ -167,12 +167,15 @@ Services.createRelation = (company_has_Services, result) => {
             result(err, null);
             return;
         }
-        console.log("Servicio Creado2: ", { id: res.insertId, ...company_has_Services });
+        // console.log("Servicio Creado2: ", { id: res.insertId, ...company_has_Services });
         result(null, { id: res.insertId, ...company_has_Services });
     });
 };
 
 Services.payment = (id_company, id_service, result) => {
+    console.log(id_company);
+    console.log(id_service.status);
+
     let date_ob = new Date();
 
     // current year
@@ -185,11 +188,14 @@ Services.payment = (id_company, id_service, result) => {
     let date = ("0" + date_ob.getDate()).slice(-2);
     let datenow = (year + "-" + month + "-" + date);
     let dateend = (year + "-" + month1 + "-" + date);
+    console.log(datenow);
+    console.log(dateend);
 
-
+    console.log("2.- Model");
     sql.query(
-        "UPDATE company_has_services SET status = ?, start_date = ?, end_date= ?  WHERE company_id_company = ? AND services_id_service = ? ", [1, datenow, dateend, id_company, id_service.services_id_service, ],
+        `UPDATE company_has_services SET status = 1, start_date = '${datenow}', end_date= '${dateend}'  WHERE company_id_company = ${id_company} AND services_id_service = ${id_service.services_id_service} `,
         (err, res) => {
+            console.log(err);
             if (err) {
                 console.log("error: ", err);
                 result(null, err);

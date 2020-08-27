@@ -31,7 +31,7 @@ Documents.remove = (id_user, result) => {
             return;
         }
 
-        console.log("deleted customer with id: ", id_user);
+        // console.log("deleted customer with id: ", id_user);
         result(null, res);
     });
 };
