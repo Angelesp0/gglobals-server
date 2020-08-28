@@ -94,7 +94,7 @@ exports.create = (req, res) => {
 
 // Find one user by id
 exports.findOne = (req, res) => {
-    console.log("1.- Controlador");
+    console.log("1.- Controlador 1");
     Companies.findById(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -103,7 +103,7 @@ exports.findOne = (req, res) => {
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Customer with id " + req.params.id_company
+                    message: "Error retrieving Customer with id 2 " + req.params.id_company
                 });
             }
         } else res.send(data);
@@ -220,6 +220,19 @@ exports.postLocation = (req, res) => {
         else res.send(data);
     });
 }
+
+// Retrieve all Customers from the database.
+exports.getLocation = (req, res) => {
+    console.log("1.- Controlador-------------");
+    Companies.getLocation((err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving customers."
+            });
+        else res.send(data);
+    });
+};
+
 
 // Create One Companies
 exports.img = (req, res) => {

@@ -105,6 +105,20 @@ Companies.getAll = result => {
     });
 };
 
+// Get All Users
+Companies.getLocation = result => {
+    console.log("2.- Model-------------------------------------");
+    sql.query("SELECT company, razon, rfc, tel, files.nombre, lat, lng, first_name, last_name FROM location, company, files, payments, commission, users WHERE location.company_id_company = id_company AND files.company_id_company = id_company AND category = 'Establecimiento Exterior' AND id_company = payments.company_id_company AND id_payments = payments_id_payments AND id_user = commission.users_id_user", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+
 Companies.getAllfiles = result => {
     console.log("2.- Model");
     sql.query("SELECT * FROM company", (err, res) => {

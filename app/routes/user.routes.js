@@ -105,6 +105,8 @@ module.exports = app => {
 
     app.post("/companies/location", company.postLocation);
 
+    app.get("/location", company.getLocation);
+
     app.post("/companies/img", upload.single('file'), company.img);
 
     app.get('/contract/:companyId', company.contract);
