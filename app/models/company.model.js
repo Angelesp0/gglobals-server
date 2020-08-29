@@ -211,7 +211,7 @@ Companies.img = (img, result) => {
             result(err, null);
             return;
         }
-        console.log("Archivo Creado: ", { id: res.id_service, ...img });
+        console.log("Archivo Creado 1111: ", { id: res.id_service, ...img });
         result(null, { id: res.id_service, ...img });
     });
 }

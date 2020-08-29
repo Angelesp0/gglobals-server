@@ -248,8 +248,10 @@ exports.img = (req, res) => {
         url: './public',
         nombre: req.file.filename,
         category: req.body.category,
-        company_id_company: req.body.company_id_company
+        company_id_company: req.body.company_id_company,
+        upload_date: req.body.upload_date
     });
+    console.log(imagen);
     // Save Customer in the database
     Companies.img(imagen, (err, data) => {
         if (err)
@@ -257,7 +259,6 @@ exports.img = (req, res) => {
                 message: err.message || "Algo a currido al crear la Empresa"
             });
         else res.send(data);
-
     });
 }
 
