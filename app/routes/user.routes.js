@@ -224,5 +224,6 @@ module.exports = app => {
 
     //========================================Dashboard================================================================================//
     app.get('/dashboard/contract', dashboard.getContract);
+    app.get('/dashboard/sales', dashboard.getSales);
 
 };

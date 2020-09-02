@@ -21,6 +21,18 @@ Dashboard.getContract = (result) => {
     });
 };
 
+Dashboard.getSales = (result) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM payments `, (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+};
+
+
+
 
 
 
