@@ -31,6 +31,29 @@ Dashboard.getSales = (result) => {
     });
 };
 
+Dashboard.getExecutive = (result) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT * FROM users WHERE role_id_role= '2'`, (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+};
+
+Dashboard.getExecutiveById = (id_user, result) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT amount, date FROM commission WHERE users_id_user = ${id_user}`, (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+};
+
+
+
+
 
 
 

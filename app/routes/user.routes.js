@@ -225,5 +225,9 @@ module.exports = app => {
     //========================================Dashboard================================================================================//
     app.get('/dashboard/contract', dashboard.getContract);
     app.get('/dashboard/sales', dashboard.getSales);
+    app.get('/dashboard/executive', dashboard.getExecutive);
+    app.get('/dashboard/executive/:executiveId', dashboard.getExecutiveById);
+
+
 
 };
