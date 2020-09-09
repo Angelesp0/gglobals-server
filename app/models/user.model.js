@@ -60,6 +60,27 @@ Users.findById = (userId, result) => {
 };
 
 // Get 1 User From ID
+Users.findCompany = (userId, result) => {
+    sql.query(`SELECT id_company, company, razon, company.img, name_service, price, upload_date, nombre  FROM users, company, company_has_services, services, files  WHERE id_user = ${userId} AND id_user=users_id_user AND id_company=company_has_services.company_id_company AND id_service =services_id_service AND id_company =files.company_id_company AND category = 'Contrato'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+
+// Get 1 User From ID
 Users.getExecutive1 = (result) => {
     sql.query('SELECT * FROM users WHERE role_id_role = 2', (err, res) => {
         if (err) {

@@ -68,6 +68,9 @@ module.exports = app => {
     // Borra un usuario por su id
     app.delete("/users/:userId", users.delete);
 
+    // Busca las empresas relacionadas a un usuario
+    app.get("/users/:userId/companies", users.findCompany);
+
     // Obtiene todos los usuarios de clase Ejecutiva
     app.get("/executive", users.getExecutive);
 
@@ -108,6 +111,9 @@ module.exports = app => {
 
     // Crea la ubicacion en cordenadas de la empresa
     app.post("/companies/location", company.postLocation);
+
+    // Recibe una empresa por su id
+    app.get("/companies/:companyId/payments", company.findPayments);
 
     // Obtiene las cordenadas de las empresas
     app.get("/location", company.getLocation);

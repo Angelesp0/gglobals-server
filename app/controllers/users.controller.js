@@ -120,6 +120,25 @@ exports.findOne = (req, res) => {
 };
 
 // Find one user by id
+exports.findCompany = (req, res) => {
+    Users.findCompany(req.params.userId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No se encontro el usuario con el ID: ${req.params.userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error recibiendo los datos del usuario con el ID: " + req.params.userId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+
+
+// Find one user by id
 exports.getExecutive = (req, res) => {
     Users.getExecutive1((err, data) => {
         if (err) {
