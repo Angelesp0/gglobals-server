@@ -28,3 +28,23 @@ exports.create = (req, res) => {
         else res.send(data);
     });
 }
+
+
+exports.update = (req, res) => {
+    console.log("1.- Controlador");
+    // Validate Request
+    if (!req.body) {
+        res.status(400).send({
+            message: "El contenido no puede estar vacio!"
+        });
+    }
+    Commission.update(req.params.userId,
+        (err, data) => {
+            if (err)
+                res.status(500).send({
+                    message: err.message || "Algo a currido al actualizar los pagos"
+                });
+            else res.send(data);
+        }
+    );
+};

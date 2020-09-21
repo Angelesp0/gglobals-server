@@ -39,3 +39,13 @@ exports.getExecutiveById = async(req, res) => {
         });
     } else res.send(dashboard);
 };
+
+exports.getcommission = async(req, res) => {
+    console.log("1.- Controlador");
+    const dashboard = await Dashboard.getcommission();
+    if (dashboard === undefined) {
+        res.json({
+            error: 'Error, no se encontraron datos'
+        });
+    } else res.send(dashboard);
+};

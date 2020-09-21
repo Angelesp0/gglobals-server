@@ -112,16 +112,17 @@ exports.findOne = (req, res) => {
 
 // Find one user by id
 exports.findPayments = (req, res) => {
-    console.log("1.- Controlador 1");
+    console.log("1.- Controlador 2");
+    console.log(req.params.companyId);
     Companies.findPayments(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Customer with id ${req.params.id_company}.`
+                    message: `Not found Customer with id ${req.params.companyId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Customer with id 2 " + req.params.id_company
+                    message: "Error al buscar pagos con el id de la empresa =" + req.params.companyId
                 });
             }
         } else res.send(data);

@@ -3,6 +3,7 @@ const Receipt = require("../models/receipt.model.js");
 // Create One Companies
 exports.create = (req, res) => {
     console.log("1.- Controlador");
+    console.log(req.body);
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -15,6 +16,7 @@ exports.create = (req, res) => {
         url: 'http://192.168.137.1:3000/files/',
         name: req.file.filename,
         num_receipt: req.body.num_receipt,
+        payments_id_payments: req.body.payments_id_payments,
         company_id_company: req.body.company_id_company,
         upload_date: req.body.upload_date
     });

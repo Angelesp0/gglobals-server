@@ -51,12 +51,14 @@ Dashboard.getExecutiveById = (id_user, result) => {
     });
 };
 
-
-
-
-
-
-
-
+Dashboard.getcommission = (result) => {
+    console.log("2.- Model");
+    return new Promise((resolve, reject) => {
+        sql.query(`SELECT first_name, last_name, img, id_commission, users_id_user, amount, date FROM users, commission WHERE role_id_role=2 AND id_user = users_id_user  AND status= 'por cobrar'`, (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+};
 
 module.exports = Dashboard;

@@ -36,5 +36,28 @@ Commission.getAll = result => {
     });
 };
 
+// update User
+Commission.update = (id_user, result) => {
+    sql.query(
+        `UPDATE commission SET status = 'cobrado' WHERE users_id_user = ${id_user}`,
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated usuario: ");
+            result(null, { message: 'comisión actualizado' });
+        }
+    );
+};
+
 
 module.exports = Commission;

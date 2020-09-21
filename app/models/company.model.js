@@ -75,7 +75,7 @@ Companies.findById = (id_company, result) => {
 // Get 1 User From ID
 Companies.findPayments = (id_company, result) => {
     console.log("2.- Model");
-    sql.query(`SELECT id_payments, value, description, status, update_time FROM payments WHERE company_id_company = ${id_company}`, (err, res) => {
+    sql.query(`SELECT id_payments, value, description, status, update_time, name FROM payments, receipt WHERE payments.company_id_company = ${id_company} AND id_payments = payments_id_payments`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

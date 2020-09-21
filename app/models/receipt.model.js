@@ -5,6 +5,7 @@ const Receipt = function(receipt) {
     this.url = receipt.url;
     this.name = receipt.name;
     this.num_receipt = receipt.num_receipt;
+    this.payments_id_payments = receipt.payments_id_payments;
     this.company_id_company = receipt.company_id_company;
 };
 // Create one company

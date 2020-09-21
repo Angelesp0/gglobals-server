@@ -220,6 +220,10 @@ module.exports = app => {
     // Registra las commissiones 
     app.post('/commission', commission.create);
 
+    // ACtualiza el estado a cobrado de las commissiones 
+    app.put('/commission/:userId', commission.update);
+
+
 
     //========================================Email================================================================================//
     // Borra una empresa por su id
@@ -233,6 +237,8 @@ module.exports = app => {
     app.get('/dashboard/sales', dashboard.getSales);
     app.get('/dashboard/executive', dashboard.getExecutive);
     app.get('/dashboard/executive/:executiveId', dashboard.getExecutiveById);
+    app.get('/dashboard/commission', dashboard.getcommission);
+
 
 
 
