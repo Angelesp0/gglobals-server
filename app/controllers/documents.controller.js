@@ -28,6 +28,66 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find one user by id
+exports.getDocumentsById = (req, res) => {
+    Documents.getDocumentsById(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.userId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+// Find one user by id
+exports.getImgById = (req, res) => {
+    Documents.getImgById(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.userId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+// Find one user by id
+exports.exterior = (req, res) => {
+    Documents.exterior(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Customer with id ${req.params.userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Customer with id " + req.params.userId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+
+
+
+
+
+
+
+
+
 // Retrieve all Customers from the database.
 exports.findAll = async(req, res) => {
     const document = await Documents.getAll(req.params.userId);

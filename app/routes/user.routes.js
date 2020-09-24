@@ -240,6 +240,17 @@ module.exports = app => {
     app.get('/dashboard/commission', dashboard.getcommission);
 
 
+    //========================================Dashboard================================================================================//
+
+    app.get('/documents/:companyId', documents.getDocumentsById);
+    app.get('/documents/:companyId/img', documents.getImgById);
+    app.get('/documents/:companyId/exterior', documents.exterior);
+
+
+
+
+
+
 
 
 };

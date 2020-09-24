@@ -46,5 +46,68 @@ Documents.findImage = (id_user) => {
     });
 }
 
+Documents.getDocumentsById = (companyId, result) => {
+    sql.query(`SELECT id_receipt, url, name, num_receipt, value, update_time, status FROM receipt, payments WHERE receipt.company_id_company = ${companyId} AND id_payments = payments_id_payments`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+Documents.getImgById = (companyId, result) => {
+    sql.query(`SELECT * FROM files  WHERE company_id_company =${companyId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Documents.exterior = (companyId, result) => {
+    sql.query(`SELECT * FROM files  WHERE company_id_company =${companyId} AND  category = 'Establecimiento Exterior'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+
+
+
+
+
+
+
 
 module.exports = Documents;
