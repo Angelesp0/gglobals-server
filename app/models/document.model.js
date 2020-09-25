@@ -101,6 +101,38 @@ Documents.exterior = (companyId, result) => {
     });
 };
 
+Documents.img = (statements, result) => {
+    console.log("2.- Model");
+    sql.query("INSERT INTO statements SET ?", statements, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        console.log("Archivo Creado 1111: ", { id: res.id_service, ...statements });
+        result(null, { id: res.id_service, ...statements });
+    });
+}
+
+Documents.getStatements = (companyId, result) => {
+    sql.query(`SELECT * FROM statements  WHERE company_id_company =${companyId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
 
 
 
