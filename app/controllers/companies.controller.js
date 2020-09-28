@@ -284,6 +284,7 @@ exports.img = (req, res) => {
 }
 
 exports.contract = (req, res) => {
+    console.log(req.params.companyId);
     console.log("1.- Controlador");
     Companies.contract(req.params.companyId, (err, data) => {
         if (err) {
