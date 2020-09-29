@@ -101,6 +101,83 @@ Documents.exterior = (companyId, result) => {
     });
 };
 
+Documents.interior = (companyId, result) => {
+    sql.query(`SELECT * FROM files WHERE company_id_company =${companyId} AND category = 'Establecimiento Interior'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Documents.ineFrontal = (companyId, result) => {
+    sql.query(`SELECT * FROM files WHERE company_id_company =${companyId} AND category = 'INE Frontal'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+Documents.inePosterior = (companyId, result) => {
+    sql.query(`SELECT * FROM files WHERE company_id_company =${companyId} AND category = 'INE Posterior'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+Documents.comprobante = (companyId, result) => {
+    sql.query(`SELECT * FROM files WHERE company_id_company =${companyId} AND category = 'Comprobante'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+
+
 Documents.img = (statements, result) => {
     console.log("2.- Model");
     sql.query("INSERT INTO statements SET ?", statements, (err, res) => {

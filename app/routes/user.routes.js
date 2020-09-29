@@ -245,6 +245,13 @@ module.exports = app => {
     app.get('/documents/:companyId', documents.getDocumentsById);
     app.get('/documents/:companyId/img', documents.getImgById);
     app.get('/documents/:companyId/exterior', documents.exterior);
+    app.get('/documents/:companyId/interior', documents.interior);
+    app.get('/documents/:companyId/inefrontal', documents.ineFrontal);
+    app.get('/documents/:companyId/ineposterior', documents.inePosterior);
+    app.get('/documents/:companyId/comprobante', documents.comprobante);
+
+
+
     app.post("/documents/statements/:companyId", upload.single('file'), documents.img);
     app.get('/documents/statements/:companyId', documents.getStatements);
 
