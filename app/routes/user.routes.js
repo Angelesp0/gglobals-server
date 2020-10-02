@@ -17,7 +17,7 @@ module.exports = app => {
     var multer = require('multer')
 
     const sql = require("./../models/db.js");
-
+    // hola
     const path = require('path')
 
     let storage = multer.diskStorage({
