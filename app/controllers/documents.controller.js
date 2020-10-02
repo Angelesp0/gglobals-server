@@ -170,7 +170,7 @@ exports.img = (req, res) => {
     console.log(req.file)
         // Create a Customer
     const statements = new Statements({
-        url: 'http://192.168.2.33:3000/files/',
+        url: 'http://192.168.2.27:3000/files/',
         name: req.file.filename,
         date: req.body.date,
         company_id_company: req.params.companyId,
