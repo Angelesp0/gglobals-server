@@ -60,4 +60,30 @@ Commission.update = (id_user, result) => {
 };
 
 
+// update User
+Commission.getById = (id_user, result) => {
+    sql.query(
+        `SELECT * FROM commission WHERE users_id_user = ${id_user} ORDER BY date DESC`,
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                result(null, res);
+                return;
+            }
+
+            // not found Customer with the id
+            result({ kind: "not_found" }, null);
+        });
+
+};
+
+
+
+
+
 module.exports = Commission;

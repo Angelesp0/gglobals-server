@@ -220,6 +220,9 @@ module.exports = app => {
     // Registra las commissiones 
     app.post('/commission', commission.create);
 
+    // Obtiene todas las comissiones por ID
+    app.get('/commission/:userId', commission.getById);
+
     // ACtualiza el estado a cobrado de las commissiones 
     app.put('/commission/:userId', commission.update);
 

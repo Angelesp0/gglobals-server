@@ -713,7 +713,7 @@ module.exports = (formulario) => {
             <strong>Servicio:</strong> ${formulario.servicio} <br/>
             <strong>Uso CFDI:</strong> Gastos en general <br/>
             <strong>Forma de Pago:</strong> ${formulario.fpago} <br/>
-            <strong>Cuenta de Pago:</strong> ${formulario.pago} <br/>
+            <strong>Cantidad del pago:</strong> ${formulario.pago} <br/>
             <strong>Calle:</strong> ${formulario.calle} <br/>
             <strong>No Exterior:</strong> ${formulario.exterior} <br/>
             <strong>No Interior:</strong> ${formulario.interior} <br/>

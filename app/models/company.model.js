@@ -241,10 +241,14 @@ Companies.img = (img, result) => {
 // Get 1 User From ID
 Companies.contract = (id_company, result) => {
     console.log("2.- Model");
+    console.log("hola");
+
     //    sql.query(`SELECT first_name, last_name, company, street, num_ext, num_int, company.colony, company.cp, city, state, main_activity FROM company, information,users WHERE id_company = ${id_company} AND id_user = users_id_user AND id_company = company_id_company`, (err, res) => {
 
-    sql.query(`SELECT id_service, first_name, rfc, last_name, company, street, num_ext, num_int, company.colony, company.cp, city, state, main_activity, name_service, nombre  FROM company, information,users, company_has_services, services, files WHERE id_user=users_id_user AND id_company =information.company_id_company AND id_company =  ${id_company} AND id_company = company_has_services.company_id_company AND id_service=services_id_service AND files.company_id_company=id_company AND category = 'Firma'
+    sql.query(`SELECT id_service, first_name, rfc, last_name, company, company.razon, street, num_ext, num_int, company.colony, company.cp, city, state, main_activity, name_service, nombre  FROM company, information,users, company_has_services, services, files WHERE id_user=users_id_user AND id_company =information.company_id_company AND id_company =  ${id_company} AND id_company = company_has_services.company_id_company AND id_service=services_id_service AND files.company_id_company=id_company AND category = 'Firma'
     `, (err, res) => {
+        console.log(res);
+
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -252,6 +256,8 @@ Companies.contract = (id_company, result) => {
         }
 
         if (res.length) {
+            //////////////////////////////////////////////////// 
+            console.log(res);
             result(null, res[0]);
             return;
         }
