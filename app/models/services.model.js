@@ -159,8 +159,8 @@ Services.createRelation = (company_has_Services, result) => {
 };
 
 Services.payment = (id_company, id_service, result) => {
+    console.log('id_service', id_service);
     console.log(id_company);
-    console.log(id_service.status);
     let date_ob = new Date();
     // current year
     let year = date_ob.getFullYear();
@@ -171,8 +171,6 @@ Services.payment = (id_company, id_service, result) => {
     let date = ("0" + date_ob.getDate()).slice(-2);
     let datenow = (year + "-" + month + "-" + date);
     let dateend = (year + "-" + month1 + "-" + date);
-    console.log(datenow);
-    console.log(dateend);
     console.log("2.- Model");
     sql.query(
         `UPDATE company_has_services SET status = 1, start_date = '${datenow}', end_date= '${dateend}'  WHERE company_id_company = ${id_company} AND services_id_service = ${id_service.services_id_service} `,

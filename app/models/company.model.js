@@ -176,6 +176,31 @@ Companies.updateById = (id_company, company, result) => {
     );
 };
 
+// update User
+Companies.updatePayment = (id_payment, result) => {
+    sql.query(
+        "UPDATE payments SET status = ? WHERE id_payments = ? ", ['COMPLETED', id_payment],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated usuario: ", { id_payment: id_payment });
+            result(null, { id_payment: id_payment });
+        }
+    );
+};
+
+
+
 // remove companies
 Companies.remove = (id_company, result) => {
     sql.query("DELETE FROM company WHERE id_company = ?", id_company, (err, res) => {
@@ -270,8 +295,8 @@ Companies.contract = (id_company, result) => {
 // Get 1 User From ID
 Companies.getcontract1 = (id_company, result) => {
     console.log("2.- Model");
-
-    sql.query(`SELECT nombre FROM files WHERE category = 'Contrato' and company_id_company =  ${id_company}`, (err, res) => {
+    //     sql.query(`SELECT nombre FROM files WHERE category = 'Contrato' and company_id_company =  ${id_company}`, (err, res) => {
+    sql.query(`SELECT * FROM files WHERE category = 'Contrato' and company_id_company =  ${id_company}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

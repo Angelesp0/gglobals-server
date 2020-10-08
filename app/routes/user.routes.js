@@ -136,6 +136,9 @@ module.exports = app => {
     // Obtiene el contrato
     app.get('/contractByIdCompany', contract.total);
 
+    // Actualiza el estado de los pagos (ventana de collect)
+    app.put('/payment/collect/:paymentId', company.updatePayment);
+
 
 
     //========================================Documents================================================================================//

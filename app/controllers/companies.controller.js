@@ -191,6 +191,37 @@ exports.update = (req, res) => {
 
 };
 
+// Update Companies.
+exports.updatePayment = (req, res) => {
+
+    // Validate Request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    Companies.updatePayment(
+        req.params.paymentId,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found Customer with id ${req.params.paymentId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Customer with id " + req.params.paymentId
+                    });
+                }
+            } else res.send(data);
+        }
+    );
+
+};
+
+
+
 // Delete Companies
 exports.delete = (req, res) => {
     Companies.remove(req.params.companyId, (err, data) => {
