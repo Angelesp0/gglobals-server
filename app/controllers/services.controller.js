@@ -251,8 +251,8 @@ exports.payment_register = (req, res) => {
         status: req.body.status,
         update_time: req.body.update_time,
         company_id_company: req.params.companyId,
-        company_has_services_id_companys: req.body.company_has_services_id_companys
-
+        company_has_services_id_companys: req.body.company_has_services_id_companys,
+        payment_day: req.body.payment_day
     });
     Services.register(payment, (err, data) => {
         if (err) {

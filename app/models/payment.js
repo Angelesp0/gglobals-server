@@ -6,5 +6,6 @@ const Payment = function(payment) {
     this.update_time = payment.update_time;
     this.company_id_company = payment.company_id_company;
     this.company_has_services_id_companys = payment.company_has_services_id_companys;
+    this.payment_day = payment.payment_day;
 };
 module.exports = Payment;
