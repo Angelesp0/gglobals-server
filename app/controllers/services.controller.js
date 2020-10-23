@@ -2,41 +2,24 @@ const Services = require("../models/services.model.js");
 const Company_has_Services = require("../models/company_has_services");
 const Payment = require("./../models/payment")
 
-// Create One Companies
+// Crea el recibo para el cliente
 exports.create = (req, res) => {
-    console.log("1.- Controlador");
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-    // Create a Customer
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     const service = new Services({
         id_service: req.body.id_service,
         name_service: req.body.name_service,
         desc_service: req.body.desc_service,
         price: req.body.price,
     });
-    // Save Customer in the database
     Services.create(service, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al crear la Empresa"
-            });
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
         else res.send(data);
     });
 };
-// Create One Companies
+
+// Crea el recibo para el cliente
 exports.create1 = (req, res) => {
-    console.log("1.- Controlador-------------");
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-    // Create a Customer
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     const service = new Services({
         id_service: req.body.id_service,
         name_service: req.body.name_service,
@@ -46,155 +29,106 @@ exports.create1 = (req, res) => {
     });
     // Save Customer in the database
     Services.create1(service, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al crear la Empresa"
-            });
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
         else res.send(data);
     });
 };
 
-// Find one user by id
+// Busca el servicio de la empresa apor el ID de la empresa
 exports.findByCompanyId = (req, res) => {
-    console.log("1.- Controlador");
     Services.findById(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontro servicios con la id: ${req.params.id_company}.`
-                });
+                res.status(404).send({ message: `No se encontro servicios con la id: ${req.params.id_company}.` });
             } else {
-                res.status(500).send({
-                    message: "La empresa no tienen servicios registrados"
-                });
+                res.status(500).send({ message: "La empresa no tienen servicios registrados" });
             }
         } else res.send(data);
     });
 };
 
-// Retrieve all Customers from the database.
+// Obtiene todos los servicios
 exports.findAll = (req, res) => {
-    console.log("1.- Controlador");
     Services.getAll((err, data) => {
-        if (err)
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving customers."
-            });
+        if (err) res.status(500).send({ message: err.message || "Some error occurred while retrieving customers." });
         else res.send(data);
     });
 };
 
-// Update Companies.
+// Actualiza el servicio por ID
 exports.update = (req, res) => {
-
-    // Validate Request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-
-    findByUserId.service
-
-
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     Services.updateById(
         req.params.serviceId,
         new Services(req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Customer with id ${req.params.serviceId}.`
-                    });
+                    res.status(404).send({ message: `Not found Customer with id ${req.params.serviceId}.` });
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Customer with id " + req.params.companyId
-                    });
+                    res.status(500).send({ message: "Error updating Customer with id " + req.params.companyId });
                 }
             } else res.send(data);
         }
     );
-
 };
 
-// Delete Companies
+// Borra un servicio por su Id
 exports.delete = (req, res) => {
     Services.remove(req.params.serviceId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `no se encontro el servicio con el id ${req.params.serviceId}.`
-                });
+                res.status(404).send({ message: `no se encontro el servicio con el id ${req.params.serviceId}.` });
             } else {
-                res.status(500).send({
-                    message: "No se pudo eliminar el servicio " + req.params.serviceId
-                });
+                res.status(500).send({ message: "No se pudo eliminar el servicio " + req.params.serviceId });
             }
         } else res.send({ message: `Servicio eliminado correctamenete` });
     });
 };
 
+// Busca el servicio de la empresa apor el ID de la empresa
 exports.getById = (req, res) => {
-    console.log("1.- Controlador");
     Services.findByCompanyId(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron servicios`
-                });
+                res.status(404).send({ message: `No se encontraron servicios` });
             } else {
-                res.status(500).send({
-                    message: "No Hay servicios para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay servicios para esta empresa " });
             }
         } else res.send(data);
     });
 }
 
+// Busca el servicio por su ID
 exports.getServiceById = (req, res) => {
-    console.log("1.- Controlador --------------------");
     Services.findServiceById(req.params.serviceId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron servicios`
-                });
+                res.status(404).send({ message: `No se encontraron servicios` });
             } else {
-                res.status(500).send({
-                    message: "No Hay servicios para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay servicios para esta empresa " });
             }
         } else res.send(data);
     });
 }
 
+// Busca un servicio por el id del usuario
 exports.findByUserId = (req, res) => {
-    console.log("1.- Controlador");
     Services.findServiceByUserId(req.params.userId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron servicios`
-                });
+                res.status(404).send({ message: `No se encontraron servicios` });
             } else {
-                res.status(500).send({
-                    message: "No Hay servicios para este usuario "
-                });
+                res.status(500).send({ message: "No Hay servicios para este usuario " });
             }
         } else res.send(data);
     });
 
 }
 
+// Registra el servicio a una empresa
 exports.companyhasservice = (req, res) => {
-    console.log("1.- Controlador");
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-    // Create a Customer
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     const company_has_Services = new Company_has_Services({
         company_id_company: req.body.company_id_company,
         services_id_service: req.body.services_id_service,
@@ -202,48 +136,31 @@ exports.companyhasservice = (req, res) => {
         start_date: req.body.start_date,
         end_date: req.body.end_date
     });
-    // Save Customer in the database
+
     Services.createRelation(company_has_Services, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al crear la Empresa"
-            });
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
         else res.send(data);
     });
 
 };
 
+// Actualiza los pagos
 exports.payment = (req, res) => {
-    console.log("1.- Controlador");
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     Services.payment(req.params.companyId, req.body, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.companyId}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
             } else {
-                res.status(500).send({
-                    message: "Error updating Customer with id " + req.params.companyId
-                });
+                res.status(500).send({ message: "Error updating Customer with id " + req.params.companyId });
             }
         } else res.send(data);
     });
 }
 
+// Registra un nuevo pago
 exports.payment_register = (req, res) => {
-    console.log("1.- Controlador");
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-    }
-    // Create a Customer
+    if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
     const payment = new Payment({
         id: req.body.id,
         value: req.body.value,
@@ -257,13 +174,9 @@ exports.payment_register = (req, res) => {
     Services.register(payment, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.companyId}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
             } else {
-                res.status(500).send({
-                    message: "Error updating Customer with id " + req.params.companyId
-                });
+                res.status(500).send({ message: "Error updating Customer with id " + req.params.companyId });
             }
         } else res.send(data);
     });

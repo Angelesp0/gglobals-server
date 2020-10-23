@@ -25,6 +25,5 @@ const Inf = function(company) {
     this.productive_chain = company.productive_chain;
     this.distinctive = company.distinctive;
     this.company_id_company = company.company_id_company;
-
 };
 module.exports = Inf;

@@ -40,6 +40,22 @@ Users.getAll = result => {
         result(null, res);
     });
 };
+
+// Get All Users
+Users.getverifications = result => {
+    sql.query("SELECT id_payments, id, value, description, status, update_time, company, razon, rfc, users_id_user FROM payments, company where company_id_company = id_company AND payments.status = 'PENDING'", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+
+
+
 // Get 1 User From ID
 Users.findById = (userId, result) => {
     sql.query(`SELECT * FROM users WHERE id_user = ${userId}`, (err, res) => {
@@ -302,5 +318,23 @@ Users.postNotifications = (notifications, result) => {
         result(null, { id: res.insertId, ...notifications });
     });
 };
+
+
+// Create one user
+Users.postverifications = (id_payments, result) => {
+    sql.query("UPDATE payments SET status = 'COMPLETED' WHERE id_payments = ?", id_payments, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        console.log("Notificacion creada: ", res);
+        result(null, res);
+    });
+};
+
+
+
+
 
 module.exports = Users;

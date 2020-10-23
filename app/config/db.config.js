@@ -1,5 +1,5 @@
 module.exports = {
-    host: '192.168.137.1',
+    host: '192.168.2.27',
     user: 'app',
     password: 'root',
     database: 'gglobals-app',

@@ -619,15 +619,15 @@ module.exports = (formulario) => {
         `,
         attachments: [{
                 filename: 'Contrato.pdf',
-                path: `http://192.168.137.1:3000/files/${formulario.contrato}`
+                path: `http://192.168.2.27:3000/files/${formulario.contrato}`
             },
             {
                 filename: 'Recibo.pdf',
-                path: `http://192.168.137.1:3000/files/${formulario.recibo}`
+                path: `http://192.168.2.27:3000/files/${formulario.recibo}`
             },
             {
                 filename: 'Acuse.pdf',
-                path: `http://192.168.137.1:3000/files/${formulario.acuse}`
+                path: `http://192.168.2.27:3000/files/${formulario.acuse}`
             },
             {
                 path: './public/images/a.png',

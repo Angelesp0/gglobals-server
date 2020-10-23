@@ -1,5 +1,4 @@
 const sql = require("./db.js");
-// constructor
 const Companies = function(company) {
     this.id_company = company.id_company;
     this.company = company.company;
@@ -30,10 +29,8 @@ const Companies = function(company) {
 };
 
 
-// Create one company
+// Crea una nueva empresa
 Companies.create = (newCompany, newInf, result) => {
-    console.log("2.- Model");
-    //console.log(newCompany);
     sql.query("INSERT INTO company SET ?", newCompany, (err, res) => {
         if (err) {
             console.log("error1: ", err);
@@ -52,7 +49,8 @@ Companies.create = (newCompany, newInf, result) => {
         })
     });
 };
-// Get 1 User From ID
+
+// Busca una empresa por id 
 Companies.findById = (id_company, result) => {
     console.log("2.- Model");
     sql.query(`SELECT * FROM company WHERE id_company = ${id_company}`, (err, res) => {
@@ -97,6 +95,7 @@ Companies.findPayments = (id_company, result) => {
 // Get 1 User From ID
 Companies.service = (id_company, result) => {
     console.log("2.- Model");
+    console.log(id_company);
     sql.query(`SELECT id_service, name_service, id_companys, value, end_date FROM services, company_has_services, payments WHERE company_has_services.company_id_company = ${id_company} AND id_service = services_id_service AND id_companys = company_has_services_id_companys`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -105,6 +104,7 @@ Companies.service = (id_company, result) => {
         }
 
         if (res.length) {
+            console.log(res);
             result(null, res[0]);
             return;
         }

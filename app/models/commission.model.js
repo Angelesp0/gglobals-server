@@ -8,24 +8,20 @@ const Commission = function(commission) {
     this.users_id_user = commission.users_id_user;
 };
 
-// Create one company
+// Registra una nueva comision
 Commission.create = (commission, result) => {
-    console.log("2.- Model");
-    //console.log(newCompany);
     sql.query("INSERT INTO commission SET ?", commission, (err, res) => {
         if (err) {
             console.log("commission: ", err);
             result(err, null);
             return;
         }
-        // console.log("Archivo Creado: ", commission);
         result(null, commission);
     });
 };
 
-// Get All Users
+// Obtiene todas las comisiones
 Commission.getAll = result => {
-    console.log("2.- Model");
     sql.query("SELECT * FROM commission", (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -36,7 +32,7 @@ Commission.getAll = result => {
     });
 };
 
-// update User
+// Actualiza una comision por el id del usuario
 Commission.update = (id_user, result) => {
     sql.query(
         `UPDATE commission SET status = 'cobrado' WHERE users_id_user = ${id_user}`,
@@ -46,21 +42,16 @@ Commission.update = (id_user, result) => {
                 result(null, err);
                 return;
             }
-
             if (res.affectedRows == 0) {
-                // not found Customer with the id
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("updated usuario: ");
             result(null, { message: 'comisión actualizado' });
         }
     );
 };
 
-
-// update User
+// Obtener comision por ID
 Commission.getById = (id_user, result) => {
     sql.query(
         `SELECT * FROM commission WHERE users_id_user = ${id_user} ORDER BY date DESC`,
@@ -75,15 +66,9 @@ Commission.getById = (id_user, result) => {
                 result(null, res);
                 return;
             }
-
-            // not found Customer with the id
             result({ kind: "not_found" }, null);
         });
 
 };
-
-
-
-
 
 module.exports = Commission;

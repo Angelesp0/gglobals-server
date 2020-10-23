@@ -4,16 +4,12 @@ const Location = require("./../models/location.model.js");
 const Image = require("./../models/img.model.js");
 
 
-// Create One Companies
+// crea una empresa
 exports.create = (req, res) => {
-    console.log("1.- Controlador");
-    // Validate request
     if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+        res.status(400).send({ message: "Content can not be empty!" });
     }
-    // Create a Customer
+    // vinculas lo datos de la respuesta con los del modelo COMPANIES
     const company = new Companies({
         company: req.body.company,
         razon: req.body.razon,
@@ -40,8 +36,8 @@ exports.create = (req, res) => {
         street2: req.body.street2,
         type_street3: req.body.type_street3,
         street3: req.body.street3
-
     });
+    // vinculas lo datos de la respuesta con los del modelo INF
     const inf = new Inf({
             contact_name: req.body.contact_name,
             job: req.body.job,
@@ -74,190 +70,127 @@ exports.create = (req, res) => {
             productive_chain: req.body.productive_chain,
             distinctive: req.body.distinctive,
         })
-        /*const company_has_Services = new Company_has_Services({
-            company_id_company: req.body.company_id_company,
-            services_id_service: req.body.services_id_service,
-            status: req.body.status,
-            start_date: req.body.start_date,
-            end_date: req.body.end_date
-        });*/
-
-    // Save Customer in the database
+        // Llamamos la funcion del modelo y enviamos company e info
     Companies.create(company, inf, (err, data) => {
         if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al crear la Empresa"
-            });
+            res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
         else res.send(data);
     });
 };
 
-// Find one user by id
+// Buscamos una empresa por su id
 exports.findOne = (req, res) => {
-    console.log("1.- Controlador 1");
     Companies.findById(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.id_company}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.id_company}.` });
             } else {
-                res.status(500).send({
-                    message: "Error retrieving Customer with id 2 " + req.params.id_company
-                });
+                res.status(500).send({ message: "Error retrieving Customer with id 2 " + req.params.id_company });
             }
         } else res.send(data);
     });
 };
 
-// Find one user by id
+// Buscamos un pago por el id de la empresa
 exports.findPayments = (req, res) => {
-    console.log("1.- Controlador 2");
-    console.log(req.params.companyId);
     Companies.findPayments(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.companyId}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
             } else {
-                res.status(500).send({
-                    message: "Error al buscar pagos con el id de la empresa =" + req.params.companyId
-                });
+                res.status(500).send({ message: "Error al buscar pagos con el id de la empresa =" + req.params.companyId });
             }
         } else res.send(data);
     });
 };
 
-
-
-// Find one user by id
+// Buscamos los servicios de la empresa por su id
 exports.service = (req, res) => {
-    console.log("1.- Controlador");
     Companies.service(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.id_company}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.id_company}.` });
             } else {
-                res.status(500).send({
-                    message: "Error retrieving Customer with id " + req.params.id_company
-                });
+                res.status(500).send({ message: "Error retrieving Customer with id " + req.params.id_company });
             }
         } else res.send(data);
     });
 };
 
-// Retrieve all Customers from the database.
+// Buscamos todas las empresas
 exports.findAll = (req, res) => {
-    console.log("1.- Controlador");
     Companies.getAll((err, data) => {
         if (err)
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving customers."
-            });
+            res.status(500).send({ message: err.message || "Some error occurred while retrieving customers." });
         else res.send(data);
     });
 };
 
-// Update Companies.
+// actualizamos una empresa por su id
 exports.update = (req, res) => {
-
-    // Validate Request
     if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+        res.status(400).send({ message: "Content can not be empty!" });
     }
-
-    Companies.updateById(
-        req.params.companyId,
-        new Companies(req.query),
+    Companies.updateById(req.params.companyId, new Companies(req.query),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Customer with id ${req.params.companyId}.`
-                    });
+                    res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Customer with id " + req.params.companyId
-                    });
+                    res.status(500).send({ message: "Error updating Customer with id " + req.params.companyId });
                 }
             } else res.send(data);
         }
     );
-
 };
 
-// Update Companies.
+// Actualiza un pago por su id
 exports.updatePayment = (req, res) => {
-
-    // Validate Request
     if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+        res.status(400).send({ message: "Content can not be empty!" });
     }
-
     Companies.updatePayment(
         req.params.paymentId,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Customer with id ${req.params.paymentId}.`
-                    });
+                    res.status(404).send({ message: `Not found Customer with id ${req.params.paymentId}.` });
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Customer with id " + req.params.paymentId
-                    });
+                    res.status(500).send({ message: "Error updating Customer with id " + req.params.paymentId });
                 }
             } else res.send(data);
         }
     );
-
 };
 
-
-
-// Delete Companies
+// Borra una empresa
 exports.delete = (req, res) => {
     Companies.remove(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found Customer with id ${req.params.companyId}.`
-                });
+                res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
             } else {
-                res.status(500).send({
-                    message: "Could not delete Customer with id " + req.params.companyId
-                });
+                res.status(500).send({ message: "Could not delete Customer with id " + req.params.companyId });
             }
         } else res.send({ message: `Customer was deleted successfully!` });
     });
 };
 
+// Busca una empresa por su id
 exports.findByCompanyId = (req, res) => {
-    console.log("1.- Controlador");
     Companies.findByCompanyId(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron documentos`
-                });
+                res.status(404).send({ message: `No se encontraron documentos` });
             } else {
-                res.status(500).send({
-                    message: "No Hay documentos para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay documentos para esta empresa " });
             }
         } else res.send(data);
     });
 }
 
+// Registra la ubicacion de la empresa
 exports.postLocation = (req, res) => {
-    console.log("1.- Controlador");
     const location = new Location({
         lat: req.body.lat,
         lng: req.body.lng,
@@ -266,36 +199,26 @@ exports.postLocation = (req, res) => {
     })
     Companies.setLocation(location, (err, data) => {
         if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al registrar la ubicacion"
-            });
+            res.status(500).send({ message: err.message || "Algo a currido al registrar la ubicacion" });
         else res.send(data);
     });
 }
 
-// Retrieve all Customers from the database.
+// Obtiene todas las ubicaciones de las empresas
 exports.getLocation = (req, res) => {
-    console.log("1.- Controlador-------------");
     Companies.getLocation((err, data) => {
         if (err)
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving customers."
-            });
+            res.status(500).send({ message: err.message || "Some error occurred while retrieving customers." });
         else res.send(data);
     });
 };
 
 
-// Create One Companies
+// Resgistra las imagenes 
 exports.img = (req, res) => {
-    console.log("1.- Controlador");
-    // Validate request
     if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+        res.status(400).send({ message: "Content can not be empty!" });
     }
-    // Create a Customer
     const imagen = new Image({
         url: './public',
         nombre: req.file.filename,
@@ -303,64 +226,47 @@ exports.img = (req, res) => {
         company_id_company: req.body.company_id_company,
         upload_date: req.body.upload_date
     });
-    console.log(imagen);
-    // Save Customer in the database
     Companies.img(imagen, (err, data) => {
         if (err)
-            res.status(500).send({
-                message: err.message || "Algo a currido al crear la Empresa"
-            });
+            res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
         else res.send(data);
     });
 }
 
+// Obtiene los datos para el contrato
 exports.contract = (req, res) => {
-    console.log(req.params.companyId);
-    console.log("1.- Controlador");
     Companies.contract(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron documentos`
-                });
+                res.status(404).send({ message: `No se encontraron documentos` });
             } else {
-                res.status(500).send({
-                    message: "No Hay documentos para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay documentos para esta empresa " });
             }
         } else res.send(data);
     });
 }
 
+// Obtiene un contrato por id
 exports.getcontract = (req, res) => {
-    console.log("1.- Controlador");
     Companies.getcontract1(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron documentos`
-                });
+                res.status(404).send({ message: `No se encontraron documentos` });
             } else {
-                res.status(500).send({
-                    message: "No Hay documentos para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
             }
         } else res.send(data);
     });
 }
 
+// obtiene las firmas de los colaboradores
 exports.getfirm = (req, res) => {
-    console.log("1.- Controlador");
     Companies.getfirms((err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No se encontraron documentos`
-                });
+                res.status(404).send({ message: `No se encontraron documentos` });
             } else {
-                res.status(500).send({
-                    message: "No Hay documentos para esta empresa "
-                });
+                res.status(500).send({ message: "No Hay documentos para esta empresa " });
             }
         } else res.send(data);
     });

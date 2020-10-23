@@ -1,13 +1,13 @@
-const { request } = require("express");
+const { request } = require('express');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const configMensaje = require('./../helpers/configMensaje');
 
 
 module.exports = app => {
-    const users = require("../controllers/users.controller.js");
+    const users = require('../controllers/users.controller.js');
     const documents = require('./../controllers/documents.controller');
-    const company = require("../controllers/companies.controller.js");
-    const service = require("../controllers/services.controller.js");
+    const company = require('../controllers/companies.controller.js');
+    const service = require('../controllers/services.controller.js');
     const commission = require('../controllers/commission.controller.js');
     const receipt = require('../controllers/receipt.controller');
     const contract = require('../controllers/contract.controller');
@@ -16,8 +16,7 @@ module.exports = app => {
 
     var multer = require('multer')
 
-    const sql = require("./../models/db.js");
-    // hola asda
+    const sql = require('./../models/db.js');
     const path = require('path')
 
     let storage = multer.diskStorage({
@@ -54,28 +53,28 @@ module.exports = app => {
     //========================================Users================================================================================//
 
     // Crea un nuevo usuario
-    app.post("/users", users.create);
+    app.post('/users', users.create);
 
     // Obtiene todos los usuarios
-    app.get("/users", users.findAll);
+    app.get('/users', users.findAll);
 
     // Recibe un usuario por su id
-    app.get("/users/:userId", users.findOne);
+    app.get('/users/:userId', users.findOne);
 
     // Actualiza un usuario por su id
-    app.put("/users/:userId", users.update);
+    app.put('/users/:userId', users.update);
 
     // Borra un usuario por su id
-    app.delete("/users/:userId", users.delete);
+    app.delete('/users/:userId', users.delete);
 
     // Busca las empresas relacionadas a un usuario
-    app.get("/users/:userId/companies", users.findCompany);
+    app.get('/users/:userId/companies', users.findCompany);
 
     // Obtiene todos los usuarios de clase Ejecutiva
-    app.get("/executive", users.getExecutive);
+    app.get('/executive', users.getExecutive);
 
     // Obtiene todos los usuarios de clase Administrativa
-    app.get("/admin", users.getAdmin);
+    app.get('/admin', users.getAdmin);
 
     // obtiene las notificaciones 
     app.get('/notifications/:userId', users.getNotifications);
@@ -95,37 +94,37 @@ module.exports = app => {
 
 
     // Crea una nueva empresa
-    app.post("/companies", company.create);
+    app.post('/companies', company.create);
 
     // Recibe todas las empresas
-    app.get("/companies", company.findAll);
+    app.get('/companies', company.findAll);
 
     // Recibe una empresa por su id
-    app.get("/companies/:companyId", company.findOne);
+    app.get('/companies/:companyId', company.findOne);
 
     // Actualiza una empresa por su id
-    app.put("/companies/:companyId", company.update);
+    app.put('/companies/:companyId', company.update);
 
     // Borra una empresa por su id
-    app.delete("/companies/:companyId", company.delete);
+    app.delete('/companies/:companyId', company.delete);
 
     // Crea la ubicacion en cordenadas de la empresa
-    app.post("/companies/location", company.postLocation);
+    app.post('/companies/location', company.postLocation);
 
     // Recibe una empresa por su id
-    app.get("/companies/:companyId/payments", company.findPayments);
+    app.get('/companies/:companyId/payments', company.findPayments);
 
     // Obtiene las cordenadas de las empresas
-    app.get("/location", company.getLocation);
+    app.get('/location', company.getLocation);
 
     // Sube las imagenes de (establecimiento, credencial y comprobante de domicilio)
-    app.post("/companies/img", upload.single('file'), company.img);
+    app.post('/companies/img', upload.single('file'), company.img);
 
     // Obtiene una empresa por id
     app.get('/contract/:companyId', company.contract);
 
     // Obtiene los servicios de una empresa
-    app.get("/companies/services/:companyId", company.service);
+    app.get('/companies/services/:companyId', company.service);
 
     // Obtiene el contrato de una empresa
     app.get('/getcontract/:companyId', company.getcontract);
@@ -139,8 +138,6 @@ module.exports = app => {
     // Actualiza el estado de los pagos (ventana de collect)
     app.put('/payment/collect/:paymentId', company.updatePayment);
 
-
-
     //========================================Documents================================================================================//
 
     // Obtiene las imagenes del usuario
@@ -151,7 +148,6 @@ module.exports = app => {
 
     //obtiene los archivos del usuario por id
     app.get('/user/files/:userId', documents.findAll);
-
 
     //========================================ADMIN================================================================================//
 
@@ -180,14 +176,13 @@ module.exports = app => {
     // Obtiene un recibo por su id
     app.get('/receipt/:receiptId', receipt.getById);
 
-
     //========================================Services================================================================================//
 
     // Crea un servicio y agrega su imagen
     app.post('/services1', upload.single('file'), service.create1);
 
     // Crea un servicio sin la imagen
-    app.post("/services", service.create);
+    app.post('/services', service.create);
 
     // Obtiene todos los servicios
     app.get('/services', service.findAll);
@@ -217,6 +212,7 @@ module.exports = app => {
     app.post('/payment/:companyId', service.payment_register);
 
     //========================================Comisiones================================================================================//
+
     // Obtiene todas las comissiones
     app.get('/commission', commission.getAll);
 
@@ -228,8 +224,6 @@ module.exports = app => {
 
     // ACtualiza el estado a cobrado de las commissiones 
     app.put('/commission/:userId', commission.update);
-
-
 
     //========================================Email================================================================================//
     // Borra una empresa por su id
@@ -245,7 +239,6 @@ module.exports = app => {
     app.get('/dashboard/executive/:executiveId', dashboard.getExecutiveById);
     app.get('/dashboard/commission', dashboard.getcommission);
 
-
     //========================================Documents================================================================================//
 
     app.get('/documents/:companyId', documents.getDocumentsById);
@@ -256,10 +249,13 @@ module.exports = app => {
     app.get('/documents/:companyId/ineposterior', documents.inePosterior);
     app.get('/documents/:companyId/comprobante', documents.comprobante);
 
-
-
-    app.post("/documents/statements/:companyId", upload.single('file'), documents.img);
+    app.post('/documents/statements/:companyId', upload.single('file'), documents.img);
     app.get('/documents/statements/:companyId', documents.getStatements);
+
+    app.get('/verification', users.getverifications);
+    app.put('/verification/:companyId', users.postverifications);
+
+
 
 
 
