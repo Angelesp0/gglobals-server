@@ -2,7 +2,7 @@
     "name": "server",
     "version": "1.0.0",
     "description": "",
-    "main": "server.js",
+    "main": "app.js",
     "dependencies": {
         "accesscontrol": "^2.2.1",
         "bcrypt-nodejs": "0.0.3",
@@ -38,7 +38,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start1": "node server.js",
+        "start1": "node app.js",
         "start": "nodemon server"
     },
     "author": "Angel",
