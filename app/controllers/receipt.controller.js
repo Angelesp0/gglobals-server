@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     }
     const receipt = new Receipt({
         id_receipt: req.body.id_receipt,
-        url: 'http://192.168.2.27:3000/files/',
+        url: 'http://192.168.100.71:3000/files/',
         name: req.file.filename,
         num_receipt: req.body.num_receipt,
         payments_id_payments: req.body.payments_id_payments,

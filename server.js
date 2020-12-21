@@ -14,6 +14,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
+const port = process.env.port || 3000
+
 app.use('/files', express.static(__dirname + '/public'));
 
 app.set('llave', config.llave);
@@ -32,6 +34,6 @@ app.get("/", (req, res) => {
 require("./app/routes/user.routes.js")(app);
 
 // set port, listen for requests asdasda
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Express server puerto 3000: \x1b[32m%s\x1b[0m', 'online')
 });
