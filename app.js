@@ -14,7 +14,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-const port = process.env.port || 3000
+const port = process.env.port || 3000;
 
 app.use('/files', express.static(__dirname + '/public'));
 
