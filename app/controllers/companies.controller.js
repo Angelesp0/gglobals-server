@@ -144,6 +144,27 @@ exports.update = (req, res) => {
     );
 };
 
+// actualizamos una empresa por su id
+exports.updateSat = (req, res) => {
+    console.log("controlador updateSat")
+    if (!req.body) {
+        res.status(400).send({ message: "Content can not be empty!" });
+    }
+    Companies.updateSat(req.params.companyId, req.body.sat,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({ message: `Not found Customer with id ${req.params.companyId}.` });
+                } else {
+                    res.status(500).send({ message: "Error updating Customer with id " + req.params.companyId });
+                }
+            } else res.send(data);
+        }
+    );
+};
+
+
+
 // Actualiza un pago por su id
 exports.updatePayment = (req, res) => {
     if (!req.body) {
@@ -259,6 +280,38 @@ exports.getcontract = (req, res) => {
     });
 }
 
+// Obtiene un contrato por id
+exports.getCer = (req, res) => {
+        console.log("1.- controller firmas")
+        Companies.getCer(req.params.companyId, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({ message: `No se encontraron documentos` });
+                } else {
+                    res.status(500).send({ message: "No Hay documentos para esta empresa" });
+                }
+            } else res.send(data);
+        });
+    }
+    // Obtiene un contrato por id
+exports.getKey = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getKey(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({ message: `No se encontraron documentos` });
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+
+
+
+
+
 // obtiene las firmas de los colaboradores
 exports.getfirm = (req, res) => {
     Companies.getfirms((err, data) => {
@@ -271,3 +324,41 @@ exports.getfirm = (req, res) => {
         } else res.send(data);
     });
 }
+
+exports.createCer = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    const firm = ({
+        url: 'http://201.107.4.85:3000/files',
+        nombre: req.file.filename,
+        categoria: "CER",
+        upload_date: req.body.date,
+        company_id_company: req.body.company_id_company,
+    });
+    Companies.createCer(firm, (err, data) => {
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
+        else res.send(data);
+    });
+};
+
+exports.createKey = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    const firm = ({
+        url: 'http://201.107.4.85:3000/files',
+        nombre: req.file.filename,
+        categoria: "KEY",
+        upload_date: req.body.date,
+        company_id_company: req.body.company_id_company,
+    });
+    Companies.createKey(firm, (err, data) => {
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
+        else res.send(data);
+    });
+};

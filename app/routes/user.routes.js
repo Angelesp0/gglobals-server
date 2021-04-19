@@ -15,6 +15,8 @@ module.exports = app => {
 
 
     var multer = require('multer')
+    var multer2 = require('multer')
+
 
     const sql = require('./../models/db.js');
     const path = require('path')
@@ -45,6 +47,33 @@ module.exports = app => {
         }
     });
     const upload = multer({ storage });
+
+    ///////////////////////////////////////////////
+    let storage2 = multer2.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, './public/sat')
+        },
+        filename: (req, file, cb) => {
+            if (file.originalname == 'blob') {
+                file.originalname = 'hola.png';
+            }
+            if (file.mimetype == 'application/pdf') {
+                console.log('hola');
+                //          servicio rif
+                if (file.originalname === 'RCR.pdf') {
+                    file.fieldname = 'RCR';
+                }
+                //          servicio P.fisica
+                if (file.originalname === 'RCE.pdf') {
+                    file.fieldname = 'RCE';
+                } else {
+                    file.originalname = 'hola.pdf';
+                }
+            }
+            cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        }
+    });
+    const upload2 = multer2({ storage2 });
 
     // auth user route
     app.post('/auth', users.login);
@@ -104,6 +133,9 @@ module.exports = app => {
 
     // Actualiza una empresa por su id
     app.put('/companies/:companyId', company.update);
+
+    app.put('/companies/:companyId/sat', company.updateSat);
+
 
     // Borra una empresa por su id
     app.delete('/companies/:companyId', company.delete);
@@ -165,6 +197,16 @@ module.exports = app => {
         });
         return result.send(req.file);
     });
+
+
+    //========================================Firmas de las empresas=================================================================//
+    app.post('/firma/cer', upload.single('file'), company.createCer);
+    app.post('/firma/key', upload.single('file'), company.createKey);
+    app.get('/firma/cer/:companyId', company.getCer);
+    app.get('/firma/key/:companyId', company.getKey);
+
+
+
     //========================================Recibos================================================================================//
 
     // Sube el recibo del cliente
