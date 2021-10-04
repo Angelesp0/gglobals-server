@@ -119,7 +119,7 @@ exports.img = (req, res) => {
         res.status(400).send({ message: "Content can not be empty!" });
     }
     const statements = new Statements({
-        url: 'http://201.107.4.85:3000/files/',
+        url: 'http://74.208.71.98:3000/files/',
         name: req.file.filename,
         date: req.body.date,
         company_id_company: req.params.companyId,

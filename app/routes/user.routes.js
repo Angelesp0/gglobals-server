@@ -202,8 +202,24 @@ module.exports = app => {
     //========================================Firmas de las empresas=================================================================//
     app.post('/firma/cer', upload.single('file'), company.createCer);
     app.post('/firma/key', upload.single('file'), company.createKey);
+    app.post('/firma/constancia', upload.single('file'), company.createConstancia);
+    app.post('/firma/opinion', upload.single('file'), company.createOpinion);
+    app.post('/firma/archivos', upload.single('file'), company.createArchivos);
+
+
+
     app.get('/firma/cer/:companyId', company.getCer);
     app.get('/firma/key/:companyId', company.getKey);
+    app.get('/firma/constancia/:companyId', company.getConstancia);
+    app.get('/firma/opinion/:companyId', company.getOpinion);
+
+    app.get('/firma/declaracion/:companyId', company.getDeclaracion);
+    app.get('/firma/linea/:companyId', company.getLinea);
+    app.get('/firma/factura/:companyId', company.getFactura);
+    app.get('/firma/receipt/:companyId', company.getReceipt);
+
+
+
 
 
 
@@ -280,6 +296,7 @@ module.exports = app => {
     app.get('/dashboard/executive', dashboard.getExecutive);
     app.get('/dashboard/executive/:executiveId', dashboard.getExecutiveById);
     app.get('/dashboard/commission', dashboard.getcommission);
+
 
     //========================================Documents================================================================================//
 

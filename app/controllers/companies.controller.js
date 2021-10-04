@@ -2,6 +2,7 @@ const Companies = require("../models/company.model.js");
 const Inf = require("../models/company_inf.model.js");
 const Location = require("./../models/location.model.js");
 const Image = require("./../models/img.model.js");
+const moment = require('moment'); // require
 
 
 // crea una empresa
@@ -35,7 +36,8 @@ exports.create = (req, res) => {
         type_street2: req.body.type_street2,
         street2: req.body.street2,
         type_street3: req.body.type_street3,
-        street3: req.body.street3
+        street3: req.body.street3,
+        last_payment: req.body.last_payment
     });
     // vinculas lo datos de la respuesta con los del modelo INF
     const inf = new Inf({
@@ -118,13 +120,42 @@ exports.service = (req, res) => {
 };
 
 // Buscamos todas las empresas
-exports.findAll = (req, res) => {
-    Companies.getAll((err, data) => {
-        if (err)
-            res.status(500).send({ message: err.message || "Some error occurred while retrieving customers." });
-        else res.send(data);
-    });
+exports.findAll = async(request, response) => {
+    try {
+        let todasEmpresas = await Companies.getAll();
+        let empresas = [];
+        // moment().format()
+        for (let i = 0; i < todasEmpresas.length; i++) {
+            const empresa = todasEmpresas[i];
+            let pago = await Companies.getHistorialPagos(empresa.id_company);
+            let totalPagado = 0;
+            let fecha2 = moment();
+            let d = moment(pago[0].update_time).day();
+            let m = moment(pago[0].update_time).month();
+            let y = moment(pago[0].update_time).year();
+            let fecha1 = moment(d + '-' + m + '-' + y);
+            empresa.totalMesesContratados = fecha2.diff(fecha1, 'months');
+            pago.forEach(precio => {
+                totalPagado = totalPagado + precio.value
+                empresa.totalPagado = totalPagado;
+            });
+            empresa.pagos = pago;
+            empresa.adeudo = (empresa.totalMesesContratados * pago[0].value) - empresa.totalPagado
+            empresas.push(empresa);
+        }
+        response.send(empresas);
+    } catch (error) {
+        response.send(error);
+    }
+
 };
+
+
+
+
+
+
+
 
 // actualizamos una empresa por su id
 exports.update = (req, res) => {
@@ -286,7 +317,7 @@ exports.getCer = (req, res) => {
         Companies.getCer(req.params.companyId, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.status(404).send({ message: `No se encontraron documentos` });
+                    res.send([]);
                 } else {
                     res.status(500).send({ message: "No Hay documentos para esta empresa" });
                 }
@@ -299,6 +330,45 @@ exports.getKey = (req, res) => {
     Companies.getKey(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
+                res.send([]);
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getConstancia = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getConstancia(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.send([]);
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getOpinion = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getOpinion(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.send([]);
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getDeclaracion = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getDeclaracion(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
                 res.status(404).send({ message: `No se encontraron documentos` });
             } else {
                 res.status(500).send({ message: "No Hay documentos para esta empresa" });
@@ -306,6 +376,54 @@ exports.getKey = (req, res) => {
         } else res.send(data);
     });
 }
+
+exports.getLinea = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getLinea(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({ message: `No se encontraron documentos` });
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getFactura = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getFactura(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.send([]);
+            } else {
+                res.status(501).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+exports.getReceipt = (req, res) => {
+    console.log("1.- controller firmas")
+    Companies.getReceipt(req.params.companyId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({ message: `No se encontraron documentos` });
+            } else {
+                res.status(500).send({ message: "No Hay documentos para esta empresa" });
+            }
+        } else res.send(data);
+    });
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -332,7 +450,7 @@ exports.createCer = (req, res) => {
         });
     }
     const firm = ({
-        url: 'http://201.107.4.85:3000/files',
+        url: 'http://74.208.71.98:3000/files/',
         nombre: req.file.filename,
         categoria: "CER",
         upload_date: req.body.date,
@@ -344,6 +462,70 @@ exports.createCer = (req, res) => {
     });
 };
 
+exports.createConstancia = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    const firm = ({
+        url: 'http://74.208.71.98:3000/files/',
+        nombre: req.file.filename,
+        categoria: "CONSTANCIA",
+        upload_date: req.body.date,
+        company_id_company: req.body.company_id_company,
+    });
+    Companies.createConstancia(firm, (err, data) => {
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
+        else res.send(data);
+    });
+};
+
+exports.createOpinion = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    const firm = ({
+        url: 'http://74.208.71.98:3000/files/',
+        nombre: req.file.filename,
+        categoria: "OPINION",
+        upload_date: req.body.date,
+        company_id_company: req.body.company_id_company,
+    });
+    Companies.createOpinion(firm, (err, data) => {
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
+        else res.send(data);
+    });
+};
+
+exports.createArchivos = (req, res) => {
+    console.log(req.file);
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    const firm = ({
+        url: 'http://74.208.71.98:3000/files/',
+        nombre: req.file.filename,
+        categoria: req.body.category,
+        upload_date: req.body.date,
+        company_id_company: req.body.company_id_company,
+    });
+    Companies.createArchivos(firm, (err, data) => {
+        if (err) res.status(500).send({ message: err.message || "Algo a currido al crear la Empresa" });
+        else res.send(data);
+    });
+};
+
+
+
+
+
+
+
 exports.createKey = (req, res) => {
     if (!req.body) {
         res.status(400).send({
@@ -351,7 +533,7 @@ exports.createKey = (req, res) => {
         });
     }
     const firm = ({
-        url: 'http://201.107.4.85:3000/files',
+        url: 'http://74.208.71.98:3000/files/',
         nombre: req.file.filename,
         categoria: "KEY",
         upload_date: req.body.date,

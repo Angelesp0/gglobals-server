@@ -27,6 +27,7 @@ const Companies = function(company) {
     this.type_street3 = company.type_street3;
     this.street3 = company.street3;
     this.sat = company.sat;
+    this.last_payment = company.last_payment;
 };
 
 
@@ -116,17 +117,25 @@ Companies.service = (id_company, result) => {
 };
 
 // Get All Users
-Companies.getAll = result => {
-    console.log("2.- Model");
-    sql.query("SELECT * FROM company, information WHERE company_id_company = id_company", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        result(null, res);
+Companies.getAll = async(result) => {
+    console.log("2.- Model getAll");
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT * FROM company, information WHERE company_id_company = id_company", (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
     });
 };
+
+Companies.getHistorialPagos = async(id_company, result) => {
+    return new Promise((resolve, reject) => {
+        sql.query("SELECT * FROM payments WHERE company_id_company = ?", [id_company], (err, res) => {
+            if (err) reject(err)
+            resolve(res);
+        });
+    });
+};
+
 
 // Get All Users
 Companies.getLocation = result => {
@@ -358,7 +367,7 @@ Companies.getCer = (id_company, result) => {
         }
 
         // not found Customer with the id
-        result({ kind: "No hay firmas" }, null);
+        result({ kind: "not_found" }, null);
     });
 };
 
@@ -377,9 +386,119 @@ Companies.getKey = (id_company, result) => {
         }
 
         // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Companies.getConstancia = (id_company, result) => {
+    console.log("2.- Model firmas");
+    sql.query("SELECT * FROM firms WHERE company_id_company= ? AND categoria = 'CONSTANCIA' ", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Companies.getOpinion = (id_company, result) => {
+    console.log("2.- Model firmas");
+    sql.query("SELECT * FROM firms WHERE company_id_company= ? AND categoria = 'OPINION' ", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Companies.getDeclaracion = (id_company, result) => {
+    console.log("2.- Model firmas");
+    sql.query("SELECT * FROM firms WHERE company_id_company= ? AND categoria = 'DECLARACION' ", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
         result({ kind: "No hay firmas" }, null);
     });
 };
+
+Companies.getLinea = (id_company, result) => {
+    console.log("2.- Model firmas");
+    sql.query("SELECT * FROM firms WHERE company_id_company= ? AND categoria = 'LINEA' ", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "No hay firmas" }, null);
+    });
+};
+
+Companies.getFactura = (id_company, result) => {
+    console.log("2.- Model firmas");
+    sql.query("SELECT * FROM firms WHERE company_id_company= ? AND categoria = 'FACTURA' ", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+Companies.getReceipt = (id_company, result) => {
+    console.log("2.- Model getReceipt");
+    sql.query("SELECT * FROM receipt WHERE company_id_company= ?", id_company, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res);
+            return;
+        }
+        // not found Customer with the id
+        result({ kind: "No hay firmas" }, null);
+    });
+};
+
+
+
+
+
+
 
 
 Companies.getfirms = (result) => {
@@ -418,6 +537,57 @@ Companies.createCer = (firm, result) => {
         result(null, {...firm });
     });
 };
+
+// Create one company
+Companies.createConstancia = (firm, result) => {
+    console.log("2.- Model createCer");
+    sql.query("INSERT INTO firms SET ?", firm, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        console.log(res.insertId);
+        firm.id_firms = res.insertId;
+        console.log("Registrado: ", {...firm });
+        result(null, {...firm });
+    });
+};
+
+// Create one company
+Companies.createOpinion = (firm, result) => {
+    console.log("2.- Model createCer");
+    sql.query("INSERT INTO firms SET ?", firm, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        console.log(res.insertId);
+        firm.id_firms = res.insertId;
+        console.log("Registrado: ", {...firm });
+        result(null, {...firm });
+    });
+};
+
+// Create one company
+Companies.createArchivos = (firm, result) => {
+    console.log("2.- Model createCer");
+    sql.query("INSERT INTO firms SET ?", firm, (err, res) => {
+        if (err) {
+            console.log("error1: ", err);
+            result(err, null);
+            return;
+        }
+        console.log(res.insertId);
+        firm.id_firms = res.insertId;
+        console.log("Registrado: ", {...firm });
+        result(null, {...firm });
+    });
+};
+
+
+
 
 Companies.createKey = (firm, result) => {
     console.log("2.- Model createKey");
