@@ -369,7 +369,7 @@ exports.getDeclaracion = (req, res) => {
     Companies.getDeclaracion(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({ message: `No se encontraron documentos` });
+                res.send([]);
             } else {
                 res.status(500).send({ message: "No Hay documentos para esta empresa" });
             }
@@ -382,7 +382,7 @@ exports.getLinea = (req, res) => {
     Companies.getLinea(req.params.companyId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({ message: `No se encontraron documentos` });
+                res.send([]);
             } else {
                 res.status(500).send({ message: "No Hay documentos para esta empresa" });
             }

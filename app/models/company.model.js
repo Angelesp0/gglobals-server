@@ -439,7 +439,7 @@ Companies.getDeclaracion = (id_company, result) => {
             return;
         }
         // not found Customer with the id
-        result({ kind: "No hay firmas" }, null);
+        result({ kind: "not_found" }, null);
     });
 };
 
@@ -456,7 +456,7 @@ Companies.getLinea = (id_company, result) => {
             return;
         }
         // not found Customer with the id
-        result({ kind: "No hay firmas" }, null);
+        result({ kind: "not_found" }, null);
     });
 };
 
